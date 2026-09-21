@@ -56,11 +56,13 @@ def normalise_number(value):
     return value.replace(",", "").replace(" ", "").replace("-", "").replace("(", "").replace(")", "")
 
 
-def check_entities(source_text, target_text):
+def check_entities(source_text, target_text, waived=()):
     """Return a list of entities present in the source but missing from the translation."""
     missing = []
     for name, values in entities(source_text).items():
         for value in values:
+            if value in waived:
+                continue
             if value in target_text:
                 continue
             # digits may be regrouped by spacing, so compare digits only
@@ -72,7 +74,7 @@ def check_entities(source_text, target_text):
     return missing
 
 
-def check_conversation(source, target):
+def check_conversation(source, target, waived=()):
     problems = []
     tag = f"#{source['translation_index']} ({source['source_id'][:28]})"
 
@@ -101,7 +103,7 @@ def check_conversation(source, target):
             problems.append(f"{where}: empty translation")
             continue
 
-        for item in check_entities(src["content"], content):
+        for item in check_entities(src["content"], content, waived):
             problems.append(f"{where}: entity missing from translation -> {item}")
 
         # a message with real words but no Cyrillic was probably left untranslated;
@@ -118,6 +120,10 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--source", required=True)
     parser.add_argument("--target", required=True)
+    parser.add_argument(
+        "--waive-entity", action="append", default=[],
+        help="entity value that is not real data and need not survive translation "
+             "(e.g. a leetspeak word like 455355 = 'assess', which is prose, not a code)")
     args = parser.parse_args()
 
     source = json.loads(pathlib.Path(args.source).read_text(encoding="utf-8"))
@@ -127,9 +133,10 @@ def main():
         print(f"FAIL: {len(source)} conversations in source, {len(target)} in translation")
         raise SystemExit(1)
 
+    waived = frozenset(args.waive_entity)
     problems = []
     for src, tgt in zip(source, target):
-        problems.extend(check_conversation(src, tgt))
+        problems.extend(check_conversation(src, tgt, waived))
 
     text = " ".join(m["content"] for conv in target for m in conv["messages"])
     kazakh_letters = sorted(set(text.lower()) & KAZAKH_SPECIFIC)

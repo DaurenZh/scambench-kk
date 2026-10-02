@@ -1,0 +1,22 @@
+[
+ {
+  "value": "P4R1B45",
+  "reason": "Leetspeak spelling of the company name PARIBAS, in a leetspeak message. It is prose, not a code, and the Kazakh renders it as PARIBAS.",
+  "batch": "batch_03"
+ },
+ {
+  "value": "01 (533 4",
+  "reason": "Not a phone number: the digits are leetspeak running across 'F0r 5/14/01 (533 4tt4ch3d f1l3' -- '533 4tt4ch3d' is 'see attached'. The date 5/14/01 and the filename g051401.pdf are both preserved in the translation.",
+  "batch": "batch_03"
+ },
+ {
+  "value": "PWN3D",
+  "reason": "Leetspeak spelling of PWNED inside a leetspeak message, rendered as PWNED in the Kazakh. Not maskable by rule: it decodes to a word, but so does the real secret key 9QYOJ9 in this same batch ('gqyojg'), and 'pwned' is not in the system dictionary either.",
+  "batch": "batch_10"
+ },
+ {
+  "value": "15 15 4 5",
+  "reason": "Not a phone number: leetspeak digits running across 'th15 15 4 5l4ng t3rm', which is 'this is a slang term'.",
+  "batch": "batch_10"
+ }
+]

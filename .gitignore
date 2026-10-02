@@ -4,12 +4,18 @@ data/raw/
 data/labeled/*.parquet
 data/labeled/*.jsonl
 data/selection/*.parquet
+data/merged/*.parquet
+data/merged/*.jsonl
 
-# The human-made artifacts ARE tracked (translations, scripts, docs, the report):
+# The human-made artifacts ARE tracked (translations, scripts, docs, the reports):
 !data/labeled/labelling_report.md
+!data/merged/merge_report.md
 
 # Python
 __pycache__/
 *.pyc
 venv/
 .venv/
+
+# macOS
+.DS_Store

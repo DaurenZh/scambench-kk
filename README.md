@@ -5,6 +5,10 @@ Two additions to the [ScamBench training corpus](https://huggingface.co/datasets
 1. A third classification label, **SUSPICIOUS**, alongside SCAM and LEGITIMATE.
 2. Natural Kazakh translations of a stratified sample of conversations.
 
+Both are complete. The merged dataset is **37,721 rows** — 37,421 original plus 300
+Kazakh — with the three-class label on every row. `EXPLANATION.md` is the full
+account; its Part 2 covers the finishing work and the open risks.
+
 ## Layout
 
 ```
@@ -15,15 +19,27 @@ scambench_kk/
     selection/     the 300 conversations chosen for translation
     translation/   batch_NN_source.json  = English source
                    batch_NN_kk.json      = Kazakh translation
+                   memory.json           = (string, style) -> Kazakh
+                   entity_waivers.json   = recorded validator waivers
+    merged/        original + Kazakh rows, 3-class labelled (+ merge_report.md)
   scripts/
     label_3class.py           the labelling rule
     apply_labels.py           runs the rule over all splits
     select_for_translation.py picks 300 conversations, stratified
     export_batches.py         splits them into translation batches
+    translation_memory.py     build / normalize / todo / assemble
     validate_translation.py   checks a translation against its source
+    test_validate_translation.py  tests for the validator itself
+    merge_kk.py               merges the Kazakh rows back in
+  notebooks/
+    01_dataset_audit.ipynb    distributions, leakage audit, coverage
   review/
     review_batches_1_and_6.html   side-by-side EN/KK for human review
 ```
+
+Scripts build, notebooks look. The pipeline stays in `scripts/` because its outputs
+are gitignored and regenerated, so the scripts are the only record of how the dataset
+was built.
 
 ## Task 2: the SUSPICIOUS class
 
@@ -63,27 +79,58 @@ snippets are kept exactly; only natural-language content is rendered into modern
 Kazakh. Speaker roles and message order are preserved, and each translated row
 keeps the label of its source.
 
-Progress: batches 1 (legitimate) and 6 (scam) are done and validated; the rest
-are pending human review of those two.
+**All 300 are translated and all fifteen batches pass validation.** A native-speaker
+fluency review is still outstanding — that is the project's main open risk.
 
-Reproduce the selection and validation:
+Reproduce the selection, translation memory and validation:
 
 ```
 cd scripts
 python select_for_translation.py --labeled ../data/labeled --out ../data/selection/selected_300.parquet
 python export_batches.py --selection ../data/selection/selected_300.parquet --out ../data/translation
+python translation_memory.py build
+python test_validate_translation.py
 python validate_translation.py --source ../data/translation/batch_01_source.json --target ../data/translation/batch_01_kk.json
 ```
 
 The validator checks that every message is present, roles and speakers are
 unchanged, and every URL, amount, handle and code from the source survives in
-the translation.
+the translation. It knows leetspeak: `455157` is the word "assist", not a code.
+Four entities it cannot decide by rule are waived individually, with reasons, in
+`data/translation/entity_waivers.json`.
 
-### Two translation decisions
+Wording is kept consistent by a translation memory keyed on
+`(source string, style_variant)`, so an English sentence gets one Kazakh rendering
+within a register. There are **0** strings drifting within a style. 45 strings are
+rendered differently across styles, which is register kept on purpose — `I'm
+listening.` is `Тыңдап отырмын.` in `short_professional` and `Тыңдап тұрмын.` in
+`slightly_slangy`.
+
+### Translation decisions
 
 - Leetspeak source (`H3ll0`) is rendered as readable Kazakh. The obfuscation is
   already recorded in the label and the `style_variant` metadata, and the task
-  asks for natural Kazakh.
+  asks for natural Kazakh. This applies to 19 of the 300 conversations.
 - Jailbreak and prompt-injection payloads (e.g. DUDE, LiveGPT) are translated as
   prose, preserving the manipulative intent, because they are the content a
   classifier must learn from.
+- Data is never translated: URLs, emails, handles, phone numbers, amounts, hashes,
+  code and JSON payloads are kept byte-for-byte, including leetspeak email
+  addresses, which are addresses rather than words.
+- Day and month names are translated; clock times, dates and numerals are not.
+
+## Merging
+
+```
+cd scripts
+python merge_kk.py --labeled ../data/labeled --translation ../data/translation --out ../data/merged
+```
+
+Each Kazakh row inherits **its English source's split**. A translation is the same
+conversation in another language, so splitting them apart would let a model train on
+the English and be scored on the Kazakh. 67 of the 300 belong to validation or test,
+so this matters; the merge asserts it and fails if it is ever violated.
+
+Kazakh rows carry `language=kk`, an id of `<source id>::kk`, `translated_from`
+naming the English row, and `translated_fields` recording what is actually Kazakh
+(`messages,system_prompt` — `response_text` and `explanation` stay English).

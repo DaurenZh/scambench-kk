@@ -6,10 +6,12 @@ data/labeled/*.jsonl
 data/selection/*.parquet
 data/merged/*.parquet
 data/merged/*.jsonl
+data/features/*.parquet
 
 # The human-made artifacts ARE tracked (translations, scripts, docs, the reports):
 !data/labeled/labelling_report.md
 !data/merged/merge_report.md
+!data/features/feature_report.md
 
 # Python
 __pycache__/

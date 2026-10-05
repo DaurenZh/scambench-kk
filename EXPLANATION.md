@@ -522,3 +522,159 @@ python scripts/translation_memory.py build
 python scripts/test_validate_translation.py
 python scripts/merge_kk.py --labeled ../data/labeled --translation ../data/translation --out ../data/merged
 ```
+
+---
+
+# Part 3. Features, and what to present
+
+## Step 7. Feature engineering
+
+`scripts/build_features.py` produces the feature table; `notebooks/02_feature_engineering.ipynb`
+establishes why it is built that way and checks the result. 54 features over 37,721
+rows, in `data/features/`.
+
+### The leakage audit is the whole story
+
+`label_3class` was **derived** from `decision_class` and `should_trigger_scam_defense`.
+Measured on the merged corpus, that pair determines the label **99.99%** of the time.
+So those columns do not predict the label — they are the label, rewritten. The same
+holds for everything produced by or alongside the annotation.
+
+| Column | Determines the label |
+|---|---:|
+| `label_rule` | 100.0% |
+| `diagnostic_labels` | 96.3% |
+| `unsafe_signals` | 92.1% |
+| `decision_class` | 90.5% |
+| `chosen_action` | 90.5% |
+| `risk_indicators` | 81.1% |
+| `source_dataset` | 78.9% |
+| `scenario_category` | 73.4% |
+
+**13 of 25 columns are excluded.** The cut is made on provenance, not on a threshold:
+`needs_review` scores only 49.7% and is still excluded, because our own labelling rule
+sets it. The question is always "could a system know this at runtime, before the label
+existed?" `build_features.py` fails if any excluded column reaches the feature table.
+
+What remains is what a detector actually sees: the conversation, plus `language`,
+`style_variant` and `source_pool`.
+
+### The features
+
+| Prefix | Count | What it measures |
+|---|---:|---|
+| `struct_` | 8 | message count, roles, who speaks last |
+| `entity_` | 17 | links, emails, handles, phones, amounts, codes |
+| `surface_` | 13 | lengths, case, digits, punctuation, leetspeak |
+| `lex_` | 16 | urgency, credentials, payment, authority, secrecy, instruction override, verification pushback |
+
+The keyword lexicon is **bilingual**. English matches on word boundaries; Kazakh is
+agglutinative, so it matches on stems — `раста` covers растау, растаңыз, расталды.
+
+### What the numbers say
+
+Signal check on the validation split, macro-F1:
+
+| | macro-F1 |
+|---|---:|
+| Majority class | 0.222 |
+| Text features only | **0.783** |
+| Text features + `decision_class` (leaked) | 0.986 |
+
+The third row is what this dataset looks like when the leakage audit is skipped. It is
+not a result; it is the label being read back.
+
+Top features by mutual information are `surface_max_msg_chars`, `struct_last_is_user`,
+`lex_families_present` and `struct_n_messages`. **No `entity_` feature reaches the top
+ranks** — whether a conversation contains a link or an amount separates the classes far
+less than how it is shaped. Scam and legitimate conversations both contain URLs and money.
+
+### What the 300 Kazakh pairs made measurable
+
+Each of the 300 exists in both languages, so "does this feature survive translation?"
+has an answer rather than an assumption:
+
+| Group | Pairs identical |
+|---|---:|
+| `struct_` | 300 / 300 |
+| `entity_` | 292 / 300 |
+| `surface_` | 0 / 300 |
+| `lex_` | 39 / 300 |
+
+`entity_` started at 286/300, and the gap was treated as a bug rather than rounded away.
+It was two defects in our own feature code, pointing in opposite directions:
+
+- leetspeak digits counted as entities in the English — `455157` ("assist") read as a
+  six-digit code — so leetspeak rows looked like they carried data they did not. Fixed
+  by blanking leetspeak before counting, the same way the validator does;
+- Kazakh morphology created fake codes — `$6370-тен` makes `6370-` match the code
+  pattern. Fixed by requiring a code to contain a letter.
+
+The residual **8 are genuine**: English `1920s` has no word boundary, Kazakh
+`1920 жылдар` does. They were left rather than tuned away.
+
+`surface_` scoring 0/300 is not a failure — those features measure the writing system,
+so they are usable within a language and never across one. And an English-only lexicon
+run over both languages scores 54 hits on the English rows against 8 on the Kazakh, with
+52 of 60 Kazakh rows scoring zero. It does not error; it quietly reports that Kazakh scam
+conversations contain no urgency and no payment demands.
+
+---
+
+## How to present this
+
+### Running order (about 10 minutes)
+
+1. **The problem** — ScamBench has no SCAM/LEGITIMATE column. There was nothing to copy.
+2. **Task 2, the third class** — derived from two service fields. Show the
+   `request_verification` row: 3,015 safe conversations and 8,383 attacks share one
+   action, so `decision_class` cannot be the label.
+3. **Task 1, Kazakh** — 300 conversations, 100 per class, stratified; structure, roles,
+   links, amounts and codes all preserved and automatically verified.
+4. **The finishing work** — reproducibility proven, four validator bugs fixed, drift
+   eliminated, merged with the split-leakage rule enforced.
+5. **Features** — the leakage audit, then the three-row score table.
+6. **What is not done** — say it before you are asked.
+
+### The two slides that carry the argument
+
+- **`decision_class` benign-vs-attack** (notebook 01): one action, both risk levels.
+  This justifies the entire third-class task.
+- **The three-row macro-F1 table** (notebook 02): 0.222 / 0.783 / 0.986. This justifies
+  the entire leakage audit, in three numbers.
+
+### Questions to expect
+
+**"Why not just use `decision_class`?"** It is an action, not a diagnosis. The same
+action is prescribed to safe and malicious conversations. Analogy: it is the
+prescription, not the diagnosis — "run more tests" is given to healthy and sick patients
+alike.
+
+**"Isn't dropping 13 columns throwing away information?"** It is throwing away the
+answer. Those columns exist because an annotator already decided what the conversation
+was.
+
+**"Why not use `scenario_category`?"** It is the attack type — an annotation. A detector
+at runtime never sees it.
+
+**"Did you weaken the validator to make batches pass?"** The opposite. A rule that made
+things pass was written and deleted because it also silently stopped checking `9QYOJ9`, a
+real secret key. Four entities are waived individually, each with its reason recorded.
+
+**"How do you know the Kazakh is any good?"** Structurally, it is verified: every
+message, role, speaker, link, amount and code. For fluency, it has not been checked by a
+native speaker — that is the project's main open risk and it is listed first.
+
+**"Why hand-built features instead of a transformer?"** A transformer is the obvious next
+step and would likely be stronger. Hand-built features are interpretable, which is what
+let us catch two measurement bugs an embedding would have hidden.
+
+### Say these before you are asked
+
+1. No native-speaker review of the Kazakh.
+2. The classes are imbalanced (50 / 29 / 21), so macro-F1, never accuracy.
+3. The Kazakh rows are 300 of 37,721 — under 1%. They are an evaluation slice, not
+   training material. The experiment they enable is train on English, evaluate zero-shot
+   on the Kazakh pairs.
+4. A table in Part 1 was computed on the train split only; Part 2 has the corrected
+   full-corpus figures.

@@ -31,8 +31,11 @@ scambench_kk/
     validate_translation.py   checks a translation against its source
     test_validate_translation.py  tests for the validator itself
     merge_kk.py               merges the Kazakh rows back in
+    build_features.py         features from conversation text only
+    features/      54 features per conversation (+ feature_report.md)
   notebooks/
-    01_dataset_audit.ipynb    distributions, leakage audit, coverage
+    01_dataset_audit.ipynb    distributions, split-leakage audit, coverage
+    02_feature_engineering.ipynb  label-leakage audit, features, EN/KK parity
   review/
     review_batches_1_and_6.html   side-by-side EN/KK for human review
 ```
@@ -105,6 +108,28 @@ within a register. There are **0** strings drifting within a style. 45 strings a
 rendered differently across styles, which is register kept on purpose — `I'm
 listening.` is `Тыңдап отырмын.` in `short_professional` and `Тыңдап тұрмын.` in
 `slightly_slangy`.
+
+## Features
+
+```
+cd scripts
+python build_features.py --merged ../data/merged --out ../data/features
+```
+
+54 features from the conversation text alone. **13 of the 25 columns are excluded as
+leakage**: `label_3class` was derived from `decision_class` and
+`should_trigger_scam_defense`, and that pair determines the label 99.99% of the time,
+so those columns reproduce the answer rather than predicting it. The script fails if
+any of them reaches the feature table; `build_features.LEAKING_COLUMNS` records the
+reason for each.
+
+Macro-F1 on validation: majority class 0.222, text features 0.783, text features plus
+one leaked column 0.986. The last number is what this dataset looks like when the
+audit is skipped.
+
+The 300 EN/KK pairs make translation-invariance measurable rather than assumed:
+`struct_` matches on 300/300 pairs, `entity_` on 292/300, `surface_` on 0/300 (they
+measure the writing system) and `lex_` on 39/300.
 
 ### Translation decisions
 

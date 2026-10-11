@@ -174,6 +174,25 @@ transfer with no loss, and the lexical models fall off the script boundary. Char
 n-grams are the best English model and among the worst Kazakh ones — on the language
 this project is about, the interpretable features win.
 
+## Expanding the Kazakh set
+
+```
+cd scripts
+python select_expanded.py --merged ../data/merged --out ../data/selection --per-class 100
+python export_batches.py --selection ../data/selection/expanded_300.parquet --out ../data/translation_v2
+```
+
+The original selection drew only from the `base` pool, assuming the rest was
+style-variant augmentation. Split by conversation family that is half right: 13,899
+augmented rows are restylings of base conversations and were rightly excluded, but
+**5,067 are not tied to any base conversation** and were excluded for no reason.
+
+Counting each conversation family once and removing what is already translated,
+**326 more conversations per class are available — 978 total, 3.3x the current 300** —
+reaching seven scenario categories the original 300 never contained
+(`cascading-failure`, `hitl-bypass`, `inter-agent-communication`, `state-persistence`
+and others). A first 300 are selected and exported, ready to translate.
+
 ### Translation decisions
 
 - Leetspeak source (`H3ll0`) is rendered as readable Kazakh. The obfuscation is

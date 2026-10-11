@@ -793,9 +793,39 @@ stated as a measurement rather than a wish.
 
 1. **A multilingual encoder** (mBERT / XLM-R / LaBSE). Char n-grams cannot cross a
    script boundary by construction; notebook 03 is the baseline to beat.
-2. **More Kazakh** — the corpus supports up to 747 conversations per class without any
-   external data, against 100 per class today. Worth doing *after* step 1, because its
+2. **More Kazakh** — `scripts/select_expanded.py` corrects the eligible pool and
+   shows the corpus supports **326 more conversations per class (978 total, 3.3x the
+   current 300)** without any external data. Worth doing *after* step 1, because its
    value is narrowing a comparison and there is not yet a comparison worth narrowing.
 3. **Translate-train** — machine-translate English training data into Kazakh, keep the
    300 human translations as the gold test set. The grouped split makes that safe to
    measure.
+
+## Step 10. The pool is bigger than the original selection assumed
+
+`select_for_translation.py` drew only from the `base` pool, reasoning that the rest is
+style-variant augmentation whose translation would yield near-duplicate Kazakh. Split
+by conversation family, that reasoning is half right:
+
+| | Conversations |
+|---|---:|
+| `base`, distinct | 1,166 |
+| augmented, a restyling of a base conversation | 13,899 — rightly excluded |
+| augmented, not tied to any base conversation | 5,067 — **wrongly excluded** |
+
+The 5,067 come from 2,954 distinct generators and are not restylings of anything.
+`scripts/select_expanded.py` includes them, while enforcing two rules the original did
+not need: one conversation family is picked at most once, and families already
+translated are excluded entirely.
+
+**Available: 326 more per class, 978 total — 3.3x the current 300.**
+
+A number worth correcting out loud, because an earlier estimate of 747 per class was
+wrong in two ways: it counted several voices of the same conversation as separate
+candidates (747 → 422) and it did not exclude what was already translated (422 → 326).
+
+The gain is not only volume. The expansion reaches **seven scenario categories the
+original 300 never touched** — `cascading-failure`, `extended-multi-turn`,
+`format-recovery`, `hitl-bypass`, `inter-agent-communication`, `state-persistence`,
+`verbose-context-injection` — because the `base` pool does not contain them at all. A
+first 300 are selected and exported to `data/translation_v2/`, ready to translate.

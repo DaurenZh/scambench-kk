@@ -135,15 +135,15 @@ Macro-F1 on validation, under two splits:
 | | original split | grouped split |
 |---|---:|---:|
 | majority class | 0.222 | 0.221 |
-| text features only | 0.783 | **0.709** |
+| text features only | 0.783 | **0.650** |
 | + `decision_class` (leaked) | 0.986 | 0.962 |
 
 **Read the second column.** ScamBench's own splits leak: the augmented pool rewrites a
-conversation in up to 25 voices and assigns the rewrites to splits independently, so
-93% of validation rows have a twin of the same conversation in training.
+conversation in up to 76 voices and assigns the rewrites to splits independently, so
+83% of validation rows have a twin of the same conversation in training.
 `scripts/make_group_split.py` produces `split_grouped`, which keeps a conversation
 family on one side of the line — same sizes, same class balance, zero families split.
-The honest baseline is **0.709**; the last row is what this dataset looks like when the
+The honest baseline is **0.650**; the last row is what this dataset looks like when the
 label-leakage audit is skipped.
 
 The 300 EN/KK pairs make translation-invariance measurable rather than assumed:

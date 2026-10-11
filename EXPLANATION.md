@@ -582,9 +582,9 @@ Signal check on the validation split, macro-F1:
 | Text features + `decision_class` (leaked) | 0.986 |
 
 **Both of those numbers are inflated, and Part 4 explains why.** Measured on a split
-that never divides a conversation family they become 0.221 / **0.709** / 0.962. The
+that never divides a conversation family they become 0.221 / **0.650** / 0.962. The
 argument is unchanged — the last row is still the label being read back — but quote
-0.709, not 0.783.
+0.650, not 0.783.
 
 Top features by mutual information are `surface_max_msg_chars`, `struct_last_is_user`,
 `lex_families_present` and `struct_n_messages`. **No `entity_` feature reaches the top
@@ -642,7 +642,7 @@ conversations contain no urgency and no payment demands.
 
 - **`decision_class` benign-vs-attack** (notebook 01): one action, both risk levels.
   This justifies the entire third-class task.
-- **The three-row macro-F1 table** (notebook 02): 0.221 / 0.709 / 0.962. This justifies
+- **The three-row macro-F1 table** (notebook 02): 0.221 / 0.650 / 0.962. This justifies
   the entire leakage audit, in three numbers.
 
 ### Questions to expect
@@ -705,7 +705,7 @@ Kazakh. That is not zero-shot.
 
 **2. Restylings are worse, and they were nearly missed.** Holding out the 300 source
 rows is not enough. An id is `<pool>::<conversation>::<row>`, and the augmented pool
-rewrites one conversation in up to 25 voices. **3,473 training rows are restylings of
+rewrites one conversation in up to 76 voices. **3,473 training rows are restylings of
 273 of the 300**, a median of 12 each. With those left in, a character n-gram model
 scored **0.973** on the "held-out" English — by recognising text it had already read in
 another register. Removing them dropped it to 0.736, and dropped the hand-feature model
@@ -745,8 +745,8 @@ any of this were deployed.
 
 This came out of contamination 2, and it is bigger than our experiment.
 
-The restyling problem is not confined to the 300. Across the corpus, **981 of 3,963
-conversation families span more than one split**, which means **93% of validation rows
+The restyling problem is not confined to the 300. Across the corpus, **967 of 7,382
+conversation families span more than one split**, which means **83% of validation rows
 have a twin of the same conversation sitting in training**. A model does not have to
 generalise to score well on the official splits; it only has to recognise a sentence it
 already read in another voice.
@@ -762,19 +762,19 @@ reported against both.
 | | original split | grouped split |
 |---|---:|---:|
 | majority class | 0.222 | 0.221 |
-| text features only | **0.783** | **0.709** |
+| text features only | **0.783** | **0.650** |
 | + `decision_class` (leaked) | 0.986 | 0.962 |
 
 The grouped split has the same sizes (30,176 / 3,773 / 3,772), identical class balance
 across all three (49.7 / 20.9 / 29.4), no family spanning two splits, and every Kazakh
-row still with its source. Validation rows with a training twin: **93% → 0%**.
+row still with its source. Validation rows with a training twin: **83% → 0%**.
 
-**Quote 0.709, not 0.783.**
+**Quote 0.650, not 0.783.**
 
 ## What this adds to the defence
 
 One more slide, and it is a strong one: *"we found that the dataset we were given has
-leaking splits, measured it at 93%, and supplied a fixed split."* That is a
+leaking splits, measured it at 83%, and supplied a fixed split."* That is a
 contribution to the corpus, not just a use of it.
 
 Two more questions to expect:

@@ -111,6 +111,9 @@ def main():
     parser.add_argument("--out", required=True)
     parser.add_argument("--embeddings",
                         help="directory of cached encoder output from encode_corpus.py")
+    parser.add_argument("--silver",
+                        help="silver_kk.parquet from translate_train.py; adds models "
+                             "trained on English plus machine-translated Kazakh")
     args = parser.parse_args()
 
     features, merged = load(args.features, args.merged)
@@ -208,6 +211,42 @@ def main():
                                          train[all_features].to_numpy(float)]),
                               y_train, combined, fitted)
             results.append(row)
+
+    if args.silver:
+        silver = pd.read_parquet(args.silver)
+        silver["split"] = "train"
+        silver_features = bf.featurise(silver)
+        silver["text"] = silver.messages.apply(
+            lambda m: "\n".join(x.get("content") or "" for x in json.loads(m)))
+
+        print(f"\nsilver: {len(silver):,} machine-translated Kazakh conversations")
+
+        # hand features, English plus silver Kazakh
+        mixed_X = np.vstack([train[all_features].to_numpy(float),
+                             silver_features[all_features].to_numpy(float)])
+        mixed_y = pd.concat([y_train, silver_features.label_3class], ignore_index=True)
+        row, _ = evaluate("hand features + silver KK",
+                          HistGradientBoostingClassifier(max_iter=200, random_state=SEED),
+                          mixed_X, mixed_y, numeric_sets, fitted)
+        results.append(row)
+
+        # the one that should move most: char n-grams had no Kazakh characters at all
+        row, _ = evaluate("char n-gram TF-IDF + silver KK",
+                          make_pipeline(
+                              TfidfVectorizer(analyzer="char_wb", ngram_range=(3, 5),
+                                              min_df=3, max_features=200_000,
+                                              sublinear_tf=True),
+                              LinearSVC(C=1.0, random_state=SEED)),
+                          train_text + silver.text.tolist(), mixed_y, text_sets, fitted)
+        results.append(row)
+
+        row, _ = evaluate("word TF-IDF + silver KK",
+                          make_pipeline(
+                              TfidfVectorizer(ngram_range=(1, 2), min_df=3,
+                                              max_features=200_000, sublinear_tf=True),
+                              LinearSVC(C=1.0, random_state=SEED)),
+                          train_text + silver.text.tolist(), mixed_y, text_sets, fitted)
+        results.append(row)
 
     table = pd.DataFrame(results).set_index("model")
     print(table.round(3).to_string())

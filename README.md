@@ -33,9 +33,11 @@ scambench_kk/
     merge_kk.py               merges the Kazakh rows back in
     build_features.py         features from conversation text only
     make_group_split.py       a split that never divides a conversation family
+    encode_corpus.py          multilingual sentence embeddings, cached
     run_crosslingual.py       train on English, evaluate on Kazakh
     features/      54 features per conversation (+ feature_report.md)
     splits/        grouped_split.csv -- conversation-level split assignment
+    embeddings/    cached encoder output
     experiments/   cross-lingual results (+ crosslingual_report.md)
   notebooks/
     01_dataset_audit.ipynb    distributions, split-leakage audit, coverage
@@ -168,11 +170,25 @@ restyling of them** held out.
 | hand features (struct+entity, 25) | 0.343 | 0.346 | −0.002 |
 | char n-gram TF-IDF (3-5) | **0.736** | 0.491 | +0.245 |
 | word TF-IDF (1-2) | 0.690 | 0.416 | +0.274 |
+| LaBSE | 0.534 | 0.484 | +0.050 |
+| LaBSE + hand features | 0.586 | 0.492 | +0.093 |
+| multilingual-e5-small | 0.522 | 0.462 | +0.059 |
+| e5-small + hand features | 0.528 | 0.495 | +0.034 |
 
 The feature grouping predicted in notebook 02 holds: the translation-invariant groups
 transfer with no loss, and the lexical models fall off the script boundary. Char
-n-grams are the best English model and among the worst Kazakh ones — on the language
-this project is about, the interpretable features win.
+n-grams are the best English model and among the worst Kazakh ones.
+
+**The multilingual encoders were expected to win and did not.** Both align the two
+languages well — a conversation's own translation is its nearest neighbour for 265/300
+and 286/300 — and both transfer far better than the lexical models. Neither beats 54
+hand-built numbers on Kazakh. A frozen sentence embedding summarises what a
+conversation is *about*, and every conversation here is about the same thing; what
+separates the classes is a turn of phrase and who speaks last, which mean-pooling
+discards. Fine-tuning end-to-end is the untested version with a real chance.
+
+With 300 conversations the 95% interval is ±5.6 points, so the large gaps are real and
+the differences among the top Kazakh scores are not.
 
 ## Expanding the Kazakh set
 

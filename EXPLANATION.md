@@ -791,8 +791,7 @@ stated as a measurement rather than a wish.
 
 ### Next, in order of value
 
-1. **A multilingual encoder** (mBERT / XLM-R / LaBSE). Char n-grams cannot cross a
-   script boundary by construction; notebook 03 is the baseline to beat.
+1. ~~**A multilingual encoder**~~ — **tried, and it lost. See Step 11.**
 2. **More Kazakh** — `scripts/select_expanded.py` corrects the eligible pool and
    shows the corpus supports **326 more conversations per class (978 total, 3.3x the
    current 300)** without any external data. Worth doing *after* step 1, because its
@@ -829,3 +828,59 @@ original 300 never touched** — `cascading-failure`, `extended-multi-turn`,
 `format-recovery`, `hitl-bypass`, `inter-agent-communication`, `state-persistence`,
 `verbose-context-injection` — because the `base` pool does not contain them at all. A
 first 300 are selected and exported to `data/translation_v2/`, ready to translate.
+
+## Step 11. The multilingual encoder was tried, and it lost
+
+The plan written at the end of Step 9 was that a multilingual encoder would beat char
+n-grams, since char n-grams cannot cross a script boundary by construction. That
+prediction was tested with two encoders and was wrong.
+
+| Model | EN-300 | KK-300 | gap |
+|---|---:|---:|---:|
+| hand features (all 54) | 0.563 | **0.539** | +0.024 |
+| LaBSE + hand features | 0.586 | 0.492 | +0.093 |
+| LaBSE | 0.534 | 0.484 | +0.050 |
+| multilingual-e5-small | 0.522 | 0.462 | +0.059 |
+| char n-gram TF-IDF | **0.736** | 0.491 | +0.245 |
+
+**The encoders do what they were brought in to do.** A conversation's own translation
+is its nearest neighbour 265/300 of the time under e5-small and 286/300 under LaBSE,
+and their gaps are a third of the lexical models'. The cross-lingual capability is
+real and measurable.
+
+**It just does not pay for itself.** Neither beats 54 hand-built numbers on Kazakh.
+
+**And the obvious explanation is only half right**, which is worth saying because it
+is the first thing a reviewer will suggest. Under e5-small two *unrelated*
+conversations sit at cosine 0.85 — it compresses the whole corpus into a narrow cone,
+which does explain that model's weakness. But LaBSE's space is healthy at 0.54 and it
+gains barely two points. Narrow spread is a defect in the small model, not the reason
+the method falls short. A probe sweep (C from 1 to 256, LinearSVC, gradient boosting)
+moved nothing, so it is not underfitting either.
+
+The better reading: a frozen sentence embedding summarises *what a conversation is
+about*, and every conversation in this corpus is about the same thing — a user asking
+an assistant for something. What separates SCAM from LEGITIMATE is a turn of phrase, a
+request slipped into a system prompt, who speaks last. Mean-pooling 512 tokens into one
+vector throws exactly that away.
+
+**This is a result about frozen embeddings with a linear probe, not about
+transformers.** Fine-tuning XLM-R end-to-end is the version with a real chance; it
+needs a GPU and was not run.
+
+### What to say about it
+
+This is the strongest methodological moment in the project and should be presented as
+one: *we wrote down a prediction, tested it with two models, were wrong, ruled out the
+two obvious explanations, and said so.* A result that contradicts the plan is worth
+more than one that confirms it, because nobody has to wonder whether it was fitted
+after the fact.
+
+The revised ordering:
+
+1. **Fine-tune, do not freeze** — needs a GPU.
+2. **Translate-train** — machine-translate English training data into Kazakh, keep the
+   300 human translations as the gold test set. Cheap, and it attacks the real problem:
+   the model has never seen Kazakh.
+3. **More Kazakh** (326 per class available) — once there is a comparison worth
+   resolving. At ±5.6 points the top Kazakh scores are currently tied.

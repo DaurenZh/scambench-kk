@@ -578,11 +578,13 @@ Signal check on the validation split, macro-F1:
 | | macro-F1 |
 |---|---:|
 | Majority class | 0.222 |
-| Text features only | **0.783** |
+| Text features only | 0.783 |
 | Text features + `decision_class` (leaked) | 0.986 |
 
-The third row is what this dataset looks like when the leakage audit is skipped. It is
-not a result; it is the label being read back.
+**Both of those numbers are inflated, and Part 4 explains why.** Measured on a split
+that never divides a conversation family they become 0.221 / **0.709** / 0.962. The
+argument is unchanged — the last row is still the label being read back — but quote
+0.709, not 0.783.
 
 Top features by mutual information are `surface_max_msg_chars`, `struct_last_is_user`,
 `lex_families_present` and `struct_n_messages`. **No `entity_` feature reaches the top
@@ -640,7 +642,7 @@ conversations contain no urgency and no payment demands.
 
 - **`decision_class` benign-vs-attack** (notebook 01): one action, both risk levels.
   This justifies the entire third-class task.
-- **The three-row macro-F1 table** (notebook 02): 0.222 / 0.783 / 0.986. This justifies
+- **The three-row macro-F1 table** (notebook 02): 0.221 / 0.709 / 0.962. This justifies
   the entire leakage audit, in three numbers.
 
 ### Questions to expect
@@ -678,3 +680,122 @@ let us catch two measurement bugs an embedding would have hidden.
    on the Kazakh pairs.
 4. A table in Part 1 was computed on the train split only; Part 2 has the corrected
    full-corpus figures.
+
+---
+
+# Part 4. Train English, evaluate Kazakh — and two contaminations found doing it
+
+## Step 8. The experiment the Kazakh subset was built for
+
+The 300 translated conversations exist in both languages with identical structure and
+identical entities. The gap between a model's score on the English 300 and the Kazakh
+300 is therefore the cost of the language change and nothing else — same
+conversations, same labels, one variable. `scripts/run_crosslingual.py`;
+`notebooks/03_crosslingual_baseline.ipynb`.
+
+### Two contaminations had to be removed first
+
+Both were found by disbelieving a good-looking number, and both are worth presenting.
+
+**1. The split rule puts English twins in training.** Each Kazakh row inherits its
+source's split — right for the merged dataset, wrong for this experiment. 233 of the
+300 English twins sit in the training split, so training on all English rows means the
+model has read the English version of most conversations it is then tested on in
+Kazakh. That is not zero-shot.
+
+**2. Restylings are worse, and they were nearly missed.** Holding out the 300 source
+rows is not enough. An id is `<pool>::<conversation>::<row>`, and the augmented pool
+rewrites one conversation in up to 25 voices. **3,473 training rows are restylings of
+273 of the 300**, a median of 12 each. With those left in, a character n-gram model
+scored **0.973** on the "held-out" English — by recognising text it had already read in
+another register. Removing them dropped it to 0.736, and dropped the hand-feature model
+from 0.858 to 0.563.
+
+The fix is to hold out the whole conversation family. Training set: 12,435 English
+conversations.
+
+### Results
+
+| Model | EN-300 | KK-300 | gap |
+|---|---:|---:|---:|
+| majority class | 0.167 | 0.167 | 0.000 |
+| hand features (all 54) | 0.563 | **0.539** | +0.024 |
+| hand features (struct+entity, 25) | 0.343 | 0.346 | −0.002 |
+| char n-gram TF-IDF (3-5) | **0.736** | 0.491 | +0.245 |
+| word TF-IDF (1-2) | 0.690 | 0.416 | +0.274 |
+
+**The feature grouping from notebook 02 was a prediction, and it held.** The
+translation-invariant groups transfer with no measurable loss (−0.002); the lexical
+models lose a quarter of their score crossing the script boundary.
+
+**There is a real trade between accuracy and transferability.** Char n-grams are the
+best English model and among the worst Kazakh ones. The hand features are worse in
+English and better in Kazakh. On the language this project is about, the interpretable
+language-aware features win.
+
+**Perfect transfer of a weak signal is not a solution.** The invariant-only model
+transfers flawlessly and scores 0.343 against a 0.167 baseline.
+
+**SCAM is where it breaks.** Per-class on Kazakh: LEGITIMATE F1 0.72, SUSPICIOUS 0.58,
+**SCAM 0.31 with recall 0.24**. The model finds roughly one Kazakh scam in four. That
+is the single most useful number in the project, and it is the one that would matter if
+any of this were deployed.
+
+## Step 9. ScamBench's own splits leak
+
+This came out of contamination 2, and it is bigger than our experiment.
+
+The restyling problem is not confined to the 300. Across the corpus, **981 of 3,963
+conversation families span more than one split**, which means **93% of validation rows
+have a twin of the same conversation sitting in training**. A model does not have to
+generalise to score well on the official splits; it only has to recognise a sentence it
+already read in another voice.
+
+This is a property of the published corpus, not of anything built here, and it means
+**every score measured against ScamBench's own splits is inflated — including ours.**
+
+`scripts/make_group_split.py` produces a second assignment, `split_grouped`, that keeps
+a conversation family on one side of the line. The original `split` column is left
+untouched, because the merged dataset should keep the corpus's own splits; results are
+reported against both.
+
+| | original split | grouped split |
+|---|---:|---:|
+| majority class | 0.222 | 0.221 |
+| text features only | **0.783** | **0.709** |
+| + `decision_class` (leaked) | 0.986 | 0.962 |
+
+The grouped split has the same sizes (30,176 / 3,773 / 3,772), identical class balance
+across all three (49.7 / 20.9 / 29.4), no family spanning two splits, and every Kazakh
+row still with its source. Validation rows with a training twin: **93% → 0%**.
+
+**Quote 0.709, not 0.783.**
+
+## What this adds to the defence
+
+One more slide, and it is a strong one: *"we found that the dataset we were given has
+leaking splits, measured it at 93%, and supplied a fixed split."* That is a
+contribution to the corpus, not just a use of it.
+
+Two more questions to expect:
+
+**"Your Kazakh scores are low — isn't that a failure?"** 0.539 against a 0.167 baseline
+is far better than chance and nowhere near usable. These are deliberately simple models
+on hand-built features. The honest conclusion is that the task is not solved, not that
+it is unsolvable — and we now have the baseline a better model has to beat.
+
+**"Can you tell these models apart?"** Mostly no, and we say so. With 300 conversations
+the 95% interval is about ±5.6 points, so the 0.245 and 0.274 gaps are real and the
+difference between 0.539 and 0.491 is not. That is the argument for more Kazakh data,
+stated as a measurement rather than a wish.
+
+### Next, in order of value
+
+1. **A multilingual encoder** (mBERT / XLM-R / LaBSE). Char n-grams cannot cross a
+   script boundary by construction; notebook 03 is the baseline to beat.
+2. **More Kazakh** — the corpus supports up to 747 conversations per class without any
+   external data, against 100 per class today. Worth doing *after* step 1, because its
+   value is narrowing a comparison and there is not yet a comparison worth narrowing.
+3. **Translate-train** — machine-translate English training data into Kazakh, keep the
+   300 human translations as the gold test set. The grouped split makes that safe to
+   measure.

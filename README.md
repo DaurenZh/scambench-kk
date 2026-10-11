@@ -32,10 +32,15 @@ scambench_kk/
     test_validate_translation.py  tests for the validator itself
     merge_kk.py               merges the Kazakh rows back in
     build_features.py         features from conversation text only
+    make_group_split.py       a split that never divides a conversation family
+    run_crosslingual.py       train on English, evaluate on Kazakh
     features/      54 features per conversation (+ feature_report.md)
+    splits/        grouped_split.csv -- conversation-level split assignment
+    experiments/   cross-lingual results (+ crosslingual_report.md)
   notebooks/
     01_dataset_audit.ipynb    distributions, split-leakage audit, coverage
     02_feature_engineering.ipynb  label-leakage audit, features, EN/KK parity
+    03_crosslingual_baseline.ipynb  train EN, evaluate KK: what translation costs
   review/
     review_batches_1_and_6.html   side-by-side EN/KK for human review
 ```
@@ -123,13 +128,51 @@ so those columns reproduce the answer rather than predicting it. The script fail
 any of them reaches the feature table; `build_features.LEAKING_COLUMNS` records the
 reason for each.
 
-Macro-F1 on validation: majority class 0.222, text features 0.783, text features plus
-one leaked column 0.986. The last number is what this dataset looks like when the
-audit is skipped.
+Macro-F1 on validation, under two splits:
+
+| | original split | grouped split |
+|---|---:|---:|
+| majority class | 0.222 | 0.221 |
+| text features only | 0.783 | **0.709** |
+| + `decision_class` (leaked) | 0.986 | 0.962 |
+
+**Read the second column.** ScamBench's own splits leak: the augmented pool rewrites a
+conversation in up to 25 voices and assigns the rewrites to splits independently, so
+93% of validation rows have a twin of the same conversation in training.
+`scripts/make_group_split.py` produces `split_grouped`, which keeps a conversation
+family on one side of the line — same sizes, same class balance, zero families split.
+The honest baseline is **0.709**; the last row is what this dataset looks like when the
+label-leakage audit is skipped.
 
 The 300 EN/KK pairs make translation-invariance measurable rather than assumed:
 `struct_` matches on 300/300 pairs, `entity_` on 292/300, `surface_` on 0/300 (they
 measure the writing system) and `lex_` on 39/300.
+
+## Cross-lingual baseline
+
+```
+cd scripts
+python make_group_split.py --merged ../data/merged --out ../data/splits
+python run_crosslingual.py --features ../data/features --merged ../data/merged --out ../data/experiments
+```
+
+The 300 conversations exist in both languages with identical structure, so the gap
+between a model's English and Kazakh score is the cost of the language change and
+nothing else. Trained on 12,435 English conversations, with the 300 **and every
+restyling of them** held out.
+
+| Model | EN-300 | KK-300 | gap |
+|---|---:|---:|---:|
+| majority class | 0.167 | 0.167 | 0.000 |
+| hand features (all 54) | 0.563 | **0.539** | +0.024 |
+| hand features (struct+entity, 25) | 0.343 | 0.346 | −0.002 |
+| char n-gram TF-IDF (3-5) | **0.736** | 0.491 | +0.245 |
+| word TF-IDF (1-2) | 0.690 | 0.416 | +0.274 |
+
+The feature grouping predicted in notebook 02 holds: the translation-invariant groups
+transfer with no loss, and the lexical models fall off the script boundary. Char
+n-grams are the best English model and among the worst Kazakh ones — on the language
+this project is about, the interpretable features win.
 
 ### Translation decisions
 

@@ -37,11 +37,13 @@ import argparse
 import json
 import pathlib
 
+import numpy as np
 import pandas as pd
 from sklearn.dummy import DummyClassifier
 from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import classification_report, f1_score
+from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import make_pipeline
 from sklearn.svm import LinearSVC
 
@@ -90,12 +92,15 @@ def split_sets(features, merged):
     return train, english_300, kazakh
 
 
-def evaluate(name, model, fit_X, fit_y, eval_sets):
+def evaluate(name, model, fit_X, fit_y, eval_sets, registry=None):
+    """Fit, score on both evaluation sets, and remember how to re-run on Kazakh."""
     model.fit(fit_X, fit_y)
     row = {"model": name}
     for label, (X, y) in eval_sets.items():
         row[label] = f1_score(y, model.predict(X), average="macro")
     row["gap"] = row["EN-300"] - row["KK-300"]
+    if registry is not None:
+        registry[name] = (model, eval_sets["KK-300"][0])
     return row, model
 
 
@@ -104,6 +109,8 @@ def main():
     parser.add_argument("--features", required=True)
     parser.add_argument("--merged", required=True)
     parser.add_argument("--out", required=True)
+    parser.add_argument("--embeddings",
+                        help="directory of cached encoder output from encode_corpus.py")
     args = parser.parse_args()
 
     features, merged = load(args.features, args.merged)
@@ -121,6 +128,7 @@ def main():
     y_eval = english_300.label_3class
 
     results = []
+    fitted = {}
 
     numeric_sets = {
         "EN-300": (english_300[all_features].to_numpy(float), y_eval),
@@ -128,12 +136,12 @@ def main():
     }
     row, _ = evaluate("majority class",
                       DummyClassifier(strategy="most_frequent"),
-                      train[all_features].to_numpy(float), y_train, numeric_sets)
+                      train[all_features].to_numpy(float), y_train, numeric_sets, fitted)
     results.append(row)
 
     row, hand_model = evaluate("hand features (all 54)",
                                HistGradientBoostingClassifier(max_iter=200, random_state=SEED),
-                               train[all_features].to_numpy(float), y_train, numeric_sets)
+                               train[all_features].to_numpy(float), y_train, numeric_sets, fitted)
     results.append(row)
 
     invariant_sets = {
@@ -142,7 +150,7 @@ def main():
     }
     row, _ = evaluate(f"hand features (struct+entity, {len(invariant)})",
                       HistGradientBoostingClassifier(max_iter=200, random_state=SEED),
-                      train[invariant].to_numpy(float), y_train, invariant_sets)
+                      train[invariant].to_numpy(float), y_train, invariant_sets, fitted)
     results.append(row)
 
     text_sets = {
@@ -156,7 +164,7 @@ def main():
                           TfidfVectorizer(analyzer="char_wb", ngram_range=(3, 5),
                                           min_df=3, max_features=200_000, sublinear_tf=True),
                           LinearSVC(C=1.0, random_state=SEED)),
-                      train_text, y_train, text_sets)
+                      train_text, y_train, text_sets, fitted)
     results.append(row)
 
     row, _ = evaluate("word TF-IDF (1-2)",
@@ -164,8 +172,42 @@ def main():
                           TfidfVectorizer(ngram_range=(1, 2), min_df=3,
                                           max_features=200_000, sublinear_tf=True),
                           LinearSVC(C=1.0, random_state=SEED)),
-                      train_text, y_train, text_sets)
+                      train_text, y_train, text_sets, fitted)
     results.append(row)
+
+    if args.embeddings:
+        import encode_corpus
+
+        for model_name in ["intfloat/multilingual-e5-small", "sentence-transformers/LaBSE"]:
+            cached = encode_corpus.load_cached(args.embeddings, model_name)
+            if cached is None:
+                continue
+            vectors = lambda ids: np.vstack(cached.loc[ids].to_numpy())
+            embed_sets = {
+                "EN-300": (vectors(english_300.id), y_eval),
+                "KK-300": (vectors(kazakh.id), kazakh.label_3class),
+            }
+            short = model_name.split("/")[-1]
+            row, embed_model = evaluate(f"multilingual encoder ({short})",
+                                        LogisticRegression(max_iter=2000, C=4.0,
+                                                           random_state=SEED),
+                                        vectors(train.id), y_train, embed_sets, fitted)
+            results.append(row)
+
+            # encoder and hand features together: do they say different things?
+            combined = {
+                "EN-300": (np.hstack([vectors(english_300.id),
+                                      english_300[all_features].to_numpy(float)]), y_eval),
+                "KK-300": (np.hstack([vectors(kazakh.id),
+                                      kazakh[all_features].to_numpy(float)]),
+                           kazakh.label_3class),
+            }
+            row, _ = evaluate(f"encoder + hand features ({short})",
+                              HistGradientBoostingClassifier(max_iter=200, random_state=SEED),
+                              np.hstack([vectors(train.id),
+                                         train[all_features].to_numpy(float)]),
+                              y_train, combined, fitted)
+            results.append(row)
 
     table = pd.DataFrame(results).set_index("model")
     print(table.round(3).to_string())
@@ -174,9 +216,11 @@ def main():
     out_dir.mkdir(parents=True, exist_ok=True)
     table.to_csv(out_dir / "crosslingual_results.csv")
 
+    best = table.drop(index="majority class")["KK-300"].idxmax()
+    assert set(table.index) <= set(fitted), f"unregistered: {set(table.index) - set(fitted)}"
+    best_model, best_matrix = fitted[best]
     per_class = classification_report(
-        kazakh.label_3class, hand_model.predict(kazakh[all_features].to_numpy(float)),
-        zero_division=0)
+        kazakh.label_3class, best_model.predict(best_matrix), zero_division=0)
 
     lines = ["# Train English, evaluate Kazakh", "",
              f"Trained on {len(train):,} English conversations. The 300 translated",
@@ -192,7 +236,7 @@ def main():
     lines += ["", "Macro-F1. With 300 conversations per evaluation set the 95% interval is",
               "roughly +/- 5 points, so small differences between rows are not meaningful;",
               "the large ones are.", "",
-              "## Per-class, hand features on Kazakh", "", "```", per_class, "```", ""]
+              f"## Per-class on Kazakh, best model ({best})", "", "```", per_class, "```", ""]
     (out_dir / "crosslingual_report.md").write_text("\n".join(lines), encoding="utf-8")
     print(f"\nwrote {out_dir / 'crosslingual_report.md'}")
 

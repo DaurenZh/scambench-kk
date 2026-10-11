@@ -15,12 +15,16 @@ Kazakh, so the gap is the cost of the language change alone.
 | hand features (struct+entity, 25) | 0.343 | 0.346 | -0.002 |
 | char n-gram TF-IDF (3-5) | 0.736 | 0.491 | +0.245 |
 | word TF-IDF (1-2) | 0.690 | 0.416 | +0.274 |
+| multilingual encoder (multilingual-e5-small) | 0.522 | 0.462 | +0.059 |
+| encoder + hand features (multilingual-e5-small) | 0.528 | 0.495 | +0.034 |
+| multilingual encoder (LaBSE) | 0.534 | 0.484 | +0.050 |
+| encoder + hand features (LaBSE) | 0.586 | 0.492 | +0.093 |
 
 Macro-F1. With 300 conversations per evaluation set the 95% interval is
 roughly +/- 5 points, so small differences between rows are not meaningful;
 the large ones are.
 
-## Per-class, hand features on Kazakh
+## Per-class on Kazakh, best model (hand features (all 54))
 
 ```
               precision    recall  f1-score   support

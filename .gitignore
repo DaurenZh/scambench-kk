@@ -8,6 +8,7 @@ data/merged/*.parquet
 data/merged/*.jsonl
 data/features/*.parquet
 data/splits/*.csv
+data/embeddings/*.npz
 
 # The human-made artifacts ARE tracked (translations, scripts, docs, the reports):
 !data/labeled/labelling_report.md

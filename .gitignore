@@ -7,11 +7,14 @@ data/selection/*.parquet
 data/merged/*.parquet
 data/merged/*.jsonl
 data/features/*.parquet
+data/splits/*.csv
 
 # The human-made artifacts ARE tracked (translations, scripts, docs, the reports):
 !data/labeled/labelling_report.md
 !data/merged/merge_report.md
 !data/features/feature_report.md
+!data/experiments/crosslingual_report.md
+!data/experiments/crosslingual_results.csv
 
 # Python
 __pycache__/

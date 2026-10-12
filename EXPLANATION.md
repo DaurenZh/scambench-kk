@@ -971,6 +971,32 @@ bootstrap intervals. English is unchanged at 0.736, so the Kazakh data costs not
 the source language. The cross-lingual gap collapses from 0.245 to 0.050, and SCAM
 recall nearly doubles, 0.24 → 0.45.
 
+### Is the silver data any good? The gold 300 can say
+
+Most projects that machine-translate their training set cannot check the result. This
+one has 300 human translations of the same English, so `scripts/score_mt_quality.py`
+runs the machine over it and grades the output.
+
+| Measure | Value |
+|---|---:|
+| chrF against the human translation | 0.549 |
+| LaBSE cosine against the human translation | 0.857 |
+| conversations keeping every entity | 259 / 300 |
+
+**chrF 0.549 is good news, in a way that needs explaining.** It measures character
+n-gram overlap, so 0.549 means the machine and the human produce noticeably *different*
+Kazakh — same meaning, different wording.
+
+That rules out the obvious objection to Step 15. Had the silver been nearly identical
+to the gold, the +0.196 could have been the model memorising NLLB's idiolect and then
+being tested on it. It is not: the model trains on one dialect of Kazakh, is evaluated
+on a visibly different one, and still gains twenty points. **The gain is Kazakh, not
+NLLB.**
+
+Entity masking held: 259 of 300 conversations keep every URL, amount and code through
+machine translation, against 300 of 300 for the human ones. The 99 dropped entities are
+the price of silver data, counted rather than assumed.
+
 ### The contrast worth presenting
 
 Two multilingual encoders tried to bridge the languages in representation space and

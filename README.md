@@ -238,6 +238,12 @@ conversations fixed against 21 broken, McNemar p ≈ 1.7 × 10⁻⁸ — while E
 0.736. Two multilingual encoders tried to bridge the languages representationally and
 neither beat 54 hand-built features.
 
+The silver data is graded against the gold 300 rather than taken on trust: chrF 0.549
+and LaBSE cosine 0.857 against the human translations, with 259/300 conversations
+keeping every entity. chrF 0.549 means the machine and the human write noticeably
+different Kazakh — which is why the gain counts. The model trains on one dialect and is
+tested on another, so it learned Kazakh, not NLLB's idiolect.
+
 Full analysis, with paired tests and the error breakdown, in
 `notebooks/04_what_helps.ipynb`.
 

@@ -40,10 +40,13 @@ scambench_kk/
     score_mt_quality.py       grade that MT against the human translations
     make_human_tasks.py       review and labelling pages for a Kazakh speaker
     score_human.py            read those back
+    export_release.py         package the dataset + card for publication
     features/      54 features per conversation (+ feature_report.md)
     splits/        grouped_split.csv -- conversation-level split assignment
     embeddings/    cached encoder output
-    experiments/   cross-lingual results (+ crosslingual_report.md)
+    experiments/   cross-lingual results, analysis, MT quality, learning curve
+    silver/        machine-translated Kazakh training data
+    release/       publication-ready parquet + dataset card
   notebooks/
     01_dataset_audit.ipynb    distributions, split-leakage audit, coverage
     02_feature_engineering.ipynb  label-leakage audit, features, EN/KK parity
@@ -283,3 +286,27 @@ so this matters; the merge asserts it and fails if it is ever violated.
 Kazakh rows carry `language=kk`, an id of `<source id>::kk`, `translated_from`
 naming the English row, and `translated_fields` recording what is actually Kazakh
 (`messages,system_prompt` — `response_text` and `explanation` stay English).
+
+## Releasing
+
+```
+cd scripts
+python export_release.py --merged ../data/merged --splits ../data/splits --out ../data/release
+huggingface-cli upload <user>/scambench-kk ../data/release .
+```
+
+Writes the three splits plus `kazakh_pairs.parquet` (the 300 conversations aligned
+with their English sources) and a dataset card that states the limitations next to the
+numbers — including the one that matters most: **no native speaker has reviewed the
+Kazakh**. Licence is CC-BY-SA-4.0, inherited from the source corpus.
+
+## CI
+
+`.github/workflows/ci.yml` runs on every push: the validator's own tests, then all 15
+batches revalidated, a check that 300 conversations are present, and a check that every
+entity waiver still carries a reason. Dependency-free — `validate_translation.py`
+imports only the standard library — so the whole job is a checkout and a Python.
+
+It guards the only part of the repo a person made by hand. Everything else is
+regenerated from scripts, and a broken translation is silent: a dropped verification
+code looks exactly like ordinary text.

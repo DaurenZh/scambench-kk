@@ -1,0 +1,67 @@
+name: translations
+
+# The 300 translations and the validator are the part of this repo that a person
+# made and a machine can check. Everything else -- the corpus, the features, the
+# experiments -- is regenerated from scripts and gitignored, so there is nothing
+# to guard there. This runs on every push because a broken translation is silent:
+# a dropped verification code looks exactly like ordinary text.
+#
+# Deliberately dependency-free. validate_translation.py imports only the standard
+# library, so the whole job is a Python version and a checkout.
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validator behaves in both directions
+        working-directory: scripts
+        run: python test_validate_translation.py
+
+      - name: Every translated batch still validates
+        working-directory: scripts
+        run: |
+          failed=0
+          for source in ../data/translation/batch_*_source.json; do
+            target="${source/_source/_kk}"
+            [ -f "$target" ] || continue
+            if ! python validate_translation.py --source "$source" --target "$target" \
+                 > /tmp/out 2>&1; then
+              echo "::error file=$target::validation failed"
+              cat /tmp/out
+              failed=1
+            fi
+          done
+          exit $failed
+
+      - name: All 300 conversations are present
+        run: |
+          python - <<'PY'
+          import json, pathlib, sys
+          d = pathlib.Path("data/translation")
+          done = sorted(d.glob("batch_*_kk.json"))
+          total = sum(len(json.loads(p.read_text(encoding="utf-8"))) for p in done)
+          print(f"{len(done)} batches, {total} conversations")
+          if total != 300:
+              sys.exit(f"expected 300 translated conversations, found {total}")
+          PY
+
+      - name: Entity waivers stay justified
+        run: |
+          python - <<'PY'
+          import json, pathlib, sys
+          waivers = json.loads(
+              pathlib.Path("data/translation/entity_waivers.json").read_text())
+          for w in waivers:
+              if not w.get("reason") or len(w["reason"]) < 40:
+                  sys.exit(f"waiver {w['value']!r} needs a real reason")
+          print(f"{len(waivers)} waivers, each with a recorded reason")
+          PY

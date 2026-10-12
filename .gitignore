@@ -9,6 +9,8 @@ data/merged/*.jsonl
 data/features/*.parquet
 data/splits/*.csv
 data/embeddings/*.npz
+data/silver/*.parquet
+data/release/*.parquet
 
 # The human-made artifacts ARE tracked (translations, scripts, docs, the reports):
 !data/labeled/labelling_report.md
@@ -16,6 +18,10 @@ data/embeddings/*.npz
 !data/features/feature_report.md
 !data/experiments/crosslingual_report.md
 !data/experiments/crosslingual_results.csv
+!data/experiments/analysis.md
+!data/experiments/mt_quality.md
+!data/experiments/silver_curve.csv
+!data/release/README.md
 
 # Python
 __pycache__/

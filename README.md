@@ -225,6 +225,10 @@ Trained on English, evaluated on the 300 conversations in both languages.
 | **attack vs not** (SCAM and SUSPICIOUS merged) | **0.879** | **0.764** |
 | SCAM vs SUSPICIOUS alone | 0.537 | 0.578 |
 
+With the silver Kazakh training data below, attack detection in Kazakh reaches
+**0.898** macro-F1 (word TF-IDF; 0.953 on English). Every model is now reported on both
+tasks.
+
 Chance on the last row is 0.500. SCAM and SUSPICIOUS are separated only by
 `decision_class` — what a correct agent should *do* — which the conversation never
 states, so a text-only model has almost no evidence for that boundary. **The

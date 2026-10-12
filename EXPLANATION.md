@@ -941,7 +941,9 @@ states it.
 | **attack vs not** (SCAM and SUSPICIOUS merged) | **0.879** | **0.764** |
 | SCAM vs SUSPICIOUS alone | 0.537 | 0.578 |
 
-Chance on the last row is 0.500.
+Chance on the last row is 0.500. (These three train on the merged labels; the main
+results table instead merges the three-class *predictions*, which gives 0.853 / 0.783
+for the same features.)
 
 The text supports attack detection well and barely supports the SCAM/SUSPICIOUS split at
 all. This does not invalidate the three-class label — it still refines the binary flag
@@ -1008,10 +1010,26 @@ and we have the measurements for both.
 
 The headline numbers, in the order a reviewer should hear them:
 
-1. **0.879 / 0.764** — attack detection, English and Kazakh. What the text supports.
-2. **0.491 → 0.687** — what giving the model Kazakh buys, p ≈ 1.7 × 10⁻⁸.
-3. **0.537 vs 0.500 chance** — the SCAM/SUSPICIOUS boundary, which is defined by agent
-   policy rather than by anything written in the conversation.
+1. **0.898** — attack detection in Kazakh, best model (word TF-IDF trained on English
+   plus silver Kazakh). English on the same model is 0.953. *This is the project's
+   strongest result and the one to lead with.*
+2. **0.491 → 0.687** — what giving the model Kazakh buys on the three-class task,
+   p ≈ 1.7 × 10⁻⁸.
+3. **0.537 vs 0.500 chance** — the SCAM/SUSPICIOUS boundary, defined by agent policy
+   rather than by anything written in the conversation, which is why the three-class
+   number is so much lower than the binary one.
+
+### One distinction to keep straight
+
+Two ways to get a binary number, and they differ slightly:
+
+- **train on merged labels** — a model built for attack-vs-not. Hand features score
+  0.879 EN / 0.764 KK this way.
+- **merge the three-class predictions afterwards** — one model, read two ways. The
+  same features give 0.853 EN / 0.783 KK.
+
+The main table uses the second, because it is the same model being read differently
+rather than a separate system. Quote whichever, but say which.
 
 ## Step 16. How much silver is enough? Less than we made
 
@@ -1039,8 +1057,9 @@ instinct that more data is always better is exactly what it refutes.
 
 ### Revised next steps
 
-1. **Report the binary task alongside the three-class one**, everywhere. Costs nothing
-   and is the single largest improvement to how the work reads.
+1. ~~**Report the binary task alongside the three-class one**~~ — **done.**
+   `run_crosslingual.py` now reports both for every model, and the best Kazakh attack
+   detection is **0.898**.
 2. **More human Kazakh** (326 per class available) — every number is measured on the
    gold 300, where the bootstrap interval is still ±5 points. This is what buys
    resolution between models.

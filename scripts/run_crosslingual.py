@@ -92,13 +92,28 @@ def split_sets(features, merged):
     return train, english_300, kazakh
 
 
+ATTACK = {"SCAM": "ATTACK", "SUSPICIOUS": "ATTACK"}
+
+
 def evaluate(name, model, fit_X, fit_y, eval_sets, registry=None):
-    """Fit, score on both evaluation sets, and remember how to re-run on Kazakh."""
+    """Fit, score on both evaluation sets, and remember how to re-run on Kazakh.
+
+    Both the three-class score and the attack-vs-not score are reported. The
+    three-class number is dominated by the SCAM/SUSPICIOUS boundary, which is
+    defined by `decision_class` -- what a correct agent should do -- and is not
+    stated anywhere in the conversation. Reporting it alone understates what the
+    text supports, so the binary column travels with it everywhere.
+    """
     model.fit(fit_X, fit_y)
     row = {"model": name}
     for label, (X, y) in eval_sets.items():
-        row[label] = f1_score(y, model.predict(X), average="macro")
+        predicted = model.predict(X)
+        row[label] = f1_score(y, predicted, average="macro")
+        row[f"{label} binary"] = f1_score(
+            pd.Series(y).replace(ATTACK), pd.Series(predicted).replace(ATTACK),
+            average="macro")
     row["gap"] = row["EN-300"] - row["KK-300"]
+    row["gap binary"] = row["EN-300 binary"] - row["KK-300 binary"]
     if registry is not None:
         registry[name] = (model, eval_sets["KK-300"][0])
     return row, model
@@ -248,7 +263,9 @@ def main():
                           train_text + silver.text.tolist(), mixed_y, text_sets, fitted)
         results.append(row)
 
-    table = pd.DataFrame(results).set_index("model")
+    table = pd.DataFrame(results).set_index("model")[
+        ["EN-300", "KK-300", "gap", "EN-300 binary", "KK-300 binary", "gap binary"]]
+    print("3-class, then attack-vs-not on the same predictions:\n")
     print(table.round(3).to_string())
 
     out_dir = pathlib.Path(args.out)
@@ -269,9 +286,18 @@ def main():
              "already read in another voice.",
              "The two evaluation sets are the same 300 conversations, in English and in",
              "Kazakh, so the gap is the cost of the language change alone.", "",
-             "| Model | EN-300 | KK-300 | gap |", "|---|---:|---:|---:|"]
+             "Two scores per model. The three-class task is the one defined in",
+             "`label_3class`; attack-vs-not merges SCAM and SUSPICIOUS, which are",
+             "separated only by `decision_class` -- a judgement about what a correct",
+             "agent should do, never stated in the conversation. The three-class number",
+             "alone understates what the text supports.", "",
+             "| Model | 3-class EN | 3-class KK | gap | binary EN | binary KK | gap |",
+             "|---|---:|---:|---:|---:|---:|---:|"]
     for name, row in table.iterrows():
-        lines.append(f"| {name} | {row['EN-300']:.3f} | {row['KK-300']:.3f} | {row['gap']:+.3f} |")
+        lines.append(
+            f"| {name} | {row['EN-300']:.3f} | {row['KK-300']:.3f} | {row['gap']:+.3f} "
+            f"| {row['EN-300 binary']:.3f} | {row['KK-300 binary']:.3f} "
+            f"| {row['gap binary']:+.3f} |")
     lines += ["", "Macro-F1. With 300 conversations per evaluation set the 95% interval is",
               "roughly +/- 5 points, so small differences between rows are not meaningful;",
               "the large ones are.", "",

@@ -35,6 +35,11 @@ scambench_kk/
     make_group_split.py       a split that never divides a conversation family
     encode_corpus.py          multilingual sentence embeddings, cached
     run_crosslingual.py       train on English, evaluate on Kazakh
+    analyse_results.py        paired tests and error analysis
+    translate_train.py        machine-translate training data into Kazakh
+    score_mt_quality.py       grade that MT against the human translations
+    make_human_tasks.py       review and labelling pages for a Kazakh speaker
+    score_human.py            read those back
     features/      54 features per conversation (+ feature_report.md)
     splits/        grouped_split.csv -- conversation-level split assignment
     embeddings/    cached encoder output
@@ -43,6 +48,7 @@ scambench_kk/
     01_dataset_audit.ipynb    distributions, split-leakage audit, coverage
     02_feature_engineering.ipynb  label-leakage audit, features, EN/KK parity
     03_crosslingual_baseline.ipynb  train EN, evaluate KK: what translation costs
+    04_what_helps.ipynb       paired tests, error analysis, translate-train
   review/
     review_batches_1_and_6.html   side-by-side EN/KK for human review
 ```
@@ -208,6 +214,32 @@ Counting each conversation family once and removing what is already translated,
 reaching seven scenario categories the original 300 never contained
 (`cascading-failure`, `hitl-bypass`, `inter-agent-communication`, `state-persistence`
 and others). A first 300 are selected and exported, ready to translate.
+
+## What the models can do
+
+Trained on English, evaluated on the 300 conversations in both languages.
+
+| Task | EN | KK |
+|---|---:|---:|
+| 3-class, as defined | 0.563 | 0.539 |
+| **attack vs not** (SCAM and SUSPICIOUS merged) | **0.879** | **0.764** |
+| SCAM vs SUSPICIOUS alone | 0.537 | 0.578 |
+
+Chance on the last row is 0.500. SCAM and SUSPICIOUS are separated only by
+`decision_class` — what a correct agent should *do* — which the conversation never
+states, so a text-only model has almost no evidence for that boundary. **The
+three-class number understates what the text supports; report it next to the binary
+one.**
+
+**Translate-train is the one intervention that works.** Machine-translating 4,000
+training conversations into Kazakh with NLLB-200 (`scripts/translate_train.py`,
+79 minutes on a laptop) lifts char n-grams on Kazakh from 0.491 to **0.687** — 76
+conversations fixed against 21 broken, McNemar p ≈ 1.7 × 10⁻⁸ — while English stays at
+0.736. Two multilingual encoders tried to bridge the languages representationally and
+neither beat 54 hand-built features.
+
+Full analysis, with paired tests and the error breakdown, in
+`notebooks/04_what_helps.ipynb`.
 
 ### Translation decisions
 

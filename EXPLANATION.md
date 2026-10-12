@@ -736,10 +736,11 @@ language-aware features win.
 **Perfect transfer of a weak signal is not a solution.** The invariant-only model
 transfers flawlessly and scores 0.343 against a 0.167 baseline.
 
-**SCAM is where it breaks.** Per-class on Kazakh: LEGITIMATE F1 0.72, SUSPICIOUS 0.58,
-**SCAM 0.31 with recall 0.24**. The model finds roughly one Kazakh scam in four. That
-is the single most useful number in the project, and it is the one that would matter if
-any of this were deployed.
+**SCAM is where it breaks — but not because of Kazakh.** Per-class on Kazakh:
+LEGITIMATE F1 0.72, SUSPICIOUS 0.58, **SCAM 0.31 with recall 0.24**. We first presented
+that as the project's most important number, implying translation was destroying scam
+detection. **That reading was wrong and Part 5 corrects it:** SCAM accuracy in *English*
+is 0.11, lower still. It was never a translation problem.
 
 ## Step 9. ScamBench's own splits leak
 
@@ -779,8 +780,11 @@ contribution to the corpus, not just a use of it.
 
 Two more questions to expect:
 
-**"Your Kazakh scores are low — isn't that a failure?"** 0.539 against a 0.167 baseline
-is far better than chance and nowhere near usable. These are deliberately simple models
+**"Your Kazakh scores are low — isn't that a failure?"** Two answers, both in Part 5.
+The three-class score is dominated by one boundary that is not present in the text; on
+attack-vs-not the same features score **0.879 English / 0.764 Kazakh**. And
+translate-train lifts Kazakh from 0.491 to **0.687**. The older framing below still
+holds for the three-class number: 0.539 against a 0.167 baseline These are deliberately simple models
 on hand-built features. The honest conclusion is that the task is not solved, not that
 it is unsolvable — and we now have the baseline a better model has to beat.
 
@@ -884,3 +888,112 @@ The revised ordering:
    the model has never seen Kazakh.
 3. **More Kazakh** (326 per class available) — once there is a comparison worth
    resolving. At ±5.6 points the top Kazakh scores are currently tied.
+
+---
+
+# Part 5. What actually helps
+
+Two experiments and an error analysis, in `notebooks/04_what_helps.ipynb`. Between them
+they correct a claim we had been making, locate the real difficulty, and find the one
+intervention that works.
+
+## Step 12. The statistics were wrong, and the conclusion survived
+
+Notebook 03's ±5.6 point interval came from a normal approximation on accuracy. EN-300
+and KK-300 are the *same* 300 conversations, so the comparison is paired: McNemar on
+correctness, percentile bootstrap for intervals.
+
+| Model | EN macro-F1 | KK macro-F1 | McNemar p |
+|---|---|---|---:|
+| hand features | 0.563 [0.517–0.612] | 0.539 [0.481–0.592] | 0.0059 |
+| char n-gram | 0.736 [0.685–0.785] | 0.491 [0.434–0.545] | 4.5 × 10⁻¹⁵ |
+
+Both gaps are real. And the comparison notebook 03 called a tie stays a tie, now
+properly: hand features win 65 Kazakh conversations, char n-grams win 51, **p = 0.227**.
+
+## Step 13. SCAM was never a translation problem
+
+| Class | n | EN accuracy | KK accuracy | lost in translation |
+|---|---:|---:|---:|---:|
+| LEGITIMATE | 100 | 0.97 | 0.78 | 20 |
+| SUSPICIOUS | 100 | 0.84 | 0.67 | 19 |
+| SCAM | 100 | **0.11** | 0.24 | 5 |
+
+**SCAM accuracy is 0.11 in English — worse than in Kazakh.** Of 76 missed Kazakh scams
+only 5 are correct in English; the other 71 are beyond the model in either language.
+What translation actually costs is the two classes the model was *good* at.
+
+Two smaller findings: leetspeak scores **better** in Kazakh (0.42 → 0.53), because
+rendering it readable removes the obfuscation — a translation decision made long before
+any model existed. And the cost rises with length: 10 conversations lost in the shortest
+quartile, 16 in the longest.
+
+## Step 14. The hard boundary is not in the text
+
+SCAM and SUSPICIOUS both carry `should_trigger_scam_defense = True`. They are separated
+*only* by `decision_class` — refuse/escalate/block against request_verification/audit —
+which is a judgement about what a correct agent should **do**. The conversation never
+states it.
+
+| Task | EN | KK |
+|---|---:|---:|
+| 3-class, as defined | 0.563 | 0.539 |
+| **attack vs not** (SCAM and SUSPICIOUS merged) | **0.879** | **0.764** |
+| SCAM vs SUSPICIOUS alone | 0.537 | 0.578 |
+
+Chance on the last row is 0.500.
+
+The text supports attack detection well and barely supports the SCAM/SUSPICIOUS split at
+all. This does not invalidate the three-class label — it still refines the binary flag
+without contradicting it, and every SUSPICIOUS row carries named risk indicators — but
+**0.563 understates how well the text is understood, and any three-class number belongs
+next to the binary one.**
+
+## Step 15. Translate-train works
+
+`scripts/translate_train.py` machine-translates 4,000 English training conversations
+into Kazakh with NLLB-200 and trains on the mixture. The 300 human translations stay the
+gold test set and are never trained on.
+
+Two things make it cheap and keep it honest: it translates **distinct strings, not
+message slots** (4,000 conversations hold 16,687 distinct strings), and it **masks
+entities** before translation and restores them after, with the same patterns the
+validator checks — otherwise `$199` becomes `199 доллар`. 79 minutes on a laptop.
+
+| Model | KK before | KK after | change |
+|---|---:|---:|---:|
+| char n-gram TF-IDF | 0.491 | **0.687** | +0.196 |
+| word TF-IDF | 0.416 | 0.661 | +0.245 |
+| hand features | 0.539 | 0.564 | +0.026 |
+
+**76 conversations fixed against 21 broken, McNemar p ≈ 1.7 × 10⁻⁸**, non-overlapping
+bootstrap intervals. English is unchanged at 0.736, so the Kazakh data costs nothing on
+the source language. The cross-lingual gap collapses from 0.245 to 0.050, and SCAM
+recall nearly doubles, 0.24 → 0.45.
+
+### The contrast worth presenting
+
+Two multilingual encoders tried to bridge the languages in representation space and
+neither beat 54 hand-built numbers. Machine-translating the training data — cruder,
+cheaper, run on a laptop — beat everything. The sophisticated idea lost to the blunt one,
+and we have the measurements for both.
+
+## What to say now
+
+The headline numbers, in the order a reviewer should hear them:
+
+1. **0.879 / 0.764** — attack detection, English and Kazakh. What the text supports.
+2. **0.491 → 0.687** — what giving the model Kazakh buys, p ≈ 1.7 × 10⁻⁸.
+3. **0.537 vs 0.500 chance** — the SCAM/SUSPICIOUS boundary, which is defined by agent
+   policy rather than by anything written in the conversation.
+
+### Revised next steps
+
+1. **More silver data.** It is the only intervention that moved the Kazakh score, and
+   nothing suggests the curve has flattened. The obvious run is the full 12,435.
+2. **Report the binary task alongside the three-class one**, everywhere.
+3. **Fine-tune rather than freeze** — still untested, needs a GPU, now has a 0.687 bar.
+4. **More human Kazakh** (326 per class) — every number above is measured on the gold
+   300, and the bootstrap interval there is still ±5 points.
+
+**Unchanged:** no native speaker has reviewed the Kazakh.

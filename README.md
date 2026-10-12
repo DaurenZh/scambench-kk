@@ -244,7 +244,11 @@ keeping every entity. chrF 0.549 means the machine and the human write noticeabl
 different Kazakh — which is why the gain counts. The model trains on one dialect and is
 tested on another, so it learned Kazakh, not NLLB's idiolect.
 
-Full analysis, with paired tests and the error breakdown, in
+**And 1,000 silver conversations are enough.** The learning curve flattens there —
+0.680 at 1,000 against 0.687 at 3,999 — so translating the rest of the training pool
+would gain nothing, and the 4,000 we made were about four times more than needed.
+
+Full analysis, with paired tests, the error breakdown and the learning curve, in
 `notebooks/04_what_helps.ipynb`.
 
 ### Translation decisions

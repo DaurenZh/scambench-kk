@@ -1013,13 +1013,54 @@ The headline numbers, in the order a reviewer should hear them:
 3. **0.537 vs 0.500 chance** — the SCAM/SUSPICIOUS boundary, which is defined by agent
    policy rather than by anything written in the conversation.
 
+## Step 16. How much silver is enough? Less than we made
+
+Translating the rest of the training pool looked like the obvious next move. It is
+cheap to check first, using the data already produced.
+
+| silver conversations | KK-300 macro-F1 |
+|---:|---:|
+| 0 | 0.491 |
+| 250 | 0.566 |
+| 500 | 0.622 |
+| **1,000** | **0.680** |
+| 2,000 | 0.687 |
+| 3,000 | 0.686 |
+| 3,999 | 0.687 |
+
+**The curve flattens at about 1,000.** Going from 1,000 to 3,999 buys +0.007, inside
+the interval. So the 4,000 conversations we translated were roughly four times more
+than the job needed, and translating the remaining 8,000 would gain nothing. The run
+took 79 minutes; the useful part took about twenty.
+
+The cheapest experiment in the project cancelled the most expensive plan. Worth running
+before buying compute, not after — and worth saying at the defence, because the
+instinct that more data is always better is exactly what it refutes.
+
 ### Revised next steps
 
-1. **More silver data.** It is the only intervention that moved the Kazakh score, and
-   nothing suggests the curve has flattened. The obvious run is the full 12,435.
-2. **Report the binary task alongside the three-class one**, everywhere.
-3. **Fine-tune rather than freeze** — still untested, needs a GPU, now has a 0.687 bar.
-4. **More human Kazakh** (326 per class) — every number above is measured on the gold
-   300, and the bootstrap interval there is still ±5 points.
+1. **Report the binary task alongside the three-class one**, everywhere. Costs nothing
+   and is the single largest improvement to how the work reads.
+2. **More human Kazakh** (326 per class available) — every number is measured on the
+   gold 300, where the bootstrap interval is still ±5 points. This is what buys
+   resolution between models.
+3. **Fine-tune rather than freeze** — the only untested idea left, with a real bar at
+   0.687. **The one remaining step that genuinely needs a GPU.**
+
+**Not** more silver data; Step 16 settles that.
+
+### What needs a GPU, and what does not
+
+Worth being precise, because "needs a GPU" gets attached to everything with a
+transformer in it:
+
+| Task | CPU? |
+|---|---|
+| NLLB translation of the training pool | yes — 3.3 strings/sec, and only ~1,000 conversations are needed |
+| LaBSE / e5 embeddings of the corpus | yes — 3–4 minutes |
+| Char n-gram and hand-feature models | yes — seconds |
+| **Fine-tuning XLM-R end to end** | **no** — backprop over thousands of examples for several epochs is days on this machine |
+
+Only the last one is blocked, and a free Colab or Kaggle GPU session is enough for it.
 
 **Unchanged:** no native speaker has reviewed the Kazakh.

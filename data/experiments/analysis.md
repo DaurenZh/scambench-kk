@@ -105,3 +105,23 @@ which is a property of how the label was defined rather than of the
 features. It does not invalidate the label -- it still refines the binary
 flag and every SUSPICIOUS row carries named risk indicators -- but any
 three-class number should be reported next to the binary one.
+
+
+## How much silver data is enough?
+
+| silver conversations | KK-300 macro-F1 | 95% CI |
+|---:|---:|---|
+| 0 | 0.491 | 0.430–0.545 |
+| 250 | 0.566 | 0.509–0.622 |
+| 500 | 0.622 | 0.569–0.669 |
+| 1,000 | 0.680 | 0.626–0.737 |
+| 2,000 | 0.687 | 0.638–0.739 |
+| 3,000 | 0.686 | 0.636–0.738 |
+| 3,999 | 0.687 | 0.635–0.737 |
+
+The curve flattens around 1,000 conversations. Going from 1,000 to 3,999 buys +0.006, which is noise.
+
+So translating the rest of the training pool would gain nothing, and
+the 4,000 conversations that took 79 minutes were about four times
+more than the job needed. Worth measuring before spending the hours,
+which is the point of running this curve at all.

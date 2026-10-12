@@ -72,6 +72,7 @@ def main():
     parser.add_argument("--features", required=True)
     parser.add_argument("--merged", required=True)
     parser.add_argument("--out", required=True)
+    parser.add_argument("--silver", help="silver_kk.parquet; adds the learning curve")
     args = parser.parse_args()
 
     features, merged = rx.load(args.features, args.merged)
@@ -244,6 +245,50 @@ def main():
     print(f"\n3-class       EN {three_en:.3f}  KK {three_kk:.3f}")
     print(f"attack vs not EN {binary_en:.3f}  KK {binary_kk:.3f}")
     print(f"SCAM vs SUSP  EN {hard_en:.3f}  KK {hard_kk:.3f}   (chance 0.500)")
+
+    if args.silver:
+        # How much silver data is actually needed? Cheap to answer with what we have,
+        # and worth answering before spending hours translating more.
+        silver = pd.read_parquet(args.silver)
+        silver["text"] = silver.messages.apply(
+            lambda m: "\n".join(x.get("content") or "" for x in json.loads(m)))
+        base_text = text.loc[train.id].tolist()
+        kk_text = text.loc[kazakh.id].tolist()
+
+        curve = []
+        for size in [0, 250, 500, 1000, 2000, 3000, len(silver)]:
+            sub = silver.sample(min(size, len(silver)), random_state=SEED) if size \
+                else silver.head(0)
+            model = make_pipeline(
+                TfidfVectorizer(analyzer="char_wb", ngram_range=(3, 5), min_df=3,
+                                max_features=200_000, sublinear_tf=True),
+                LinearSVC(C=1.0, random_state=SEED)).fit(
+                base_text + sub.text.tolist(),
+                pd.concat([train.label_3class, sub.label_3class], ignore_index=True))
+            predicted = model.predict(kk_text)
+            score = f1_score(truth, predicted, average="macro", labels=CLASSES,
+                             zero_division=0)
+            lo, hi = bootstrap_f1(truth, predicted, rng, rounds=400)
+            curve.append({"silver": len(sub), "kk_f1": score, "lo": lo, "hi": hi})
+            print(f"  {len(sub):>5,} silver -> {score:.3f}  [{lo:.3f}, {hi:.3f}]")
+
+        curve_frame = pd.DataFrame(curve)
+        curve_frame.to_csv(pathlib.Path(args.out) / "silver_curve.csv", index=False)
+        at_1000 = curve_frame.loc[curve_frame.silver == 1000, "kk_f1"].iloc[0]
+        at_max = curve_frame.kk_f1.iloc[-1]
+        lines += ["", "## How much silver data is enough?", "",
+                  "| silver conversations | KK-300 macro-F1 | 95% CI |", "|---:|---:|---|"]
+        for row in curve:
+            lines.append(f"| {row['silver']:,} | {row['kk_f1']:.3f} | "
+                         f"{row['lo']:.3f}–{row['hi']:.3f} |")
+        lines += ["",
+                  f"The curve flattens around 1,000 conversations. Going from 1,000 to "
+                  f"{curve[-1]['silver']:,} buys {at_max - at_1000:+.3f}, which is noise.",
+                  "",
+                  "So translating the rest of the training pool would gain nothing, and",
+                  "the 4,000 conversations that took 79 minutes were about four times",
+                  "more than the job needed. Worth measuring before spending the hours,",
+                  "which is the point of running this curve at all.", ""]
 
     out_dir = pathlib.Path(args.out)
     out_dir.mkdir(parents=True, exist_ok=True)

@@ -199,6 +199,29 @@ discards. Fine-tuning end-to-end is the untested version with a real chance.
 With 300 conversations the 95% interval is ±5.6 points, so the large gaps are real and
 the differences among the top Kazakh scores are not.
 
+## GPU fine-tuning on another machine
+
+Run `python scripts/prepare_gpu_bundle.py` from the repository root to build
+`data/gpu_bundle.zip`. Transfer that ZIP to the GPU machine, extract it, and open
+`05_gpu_finetuning.ipynb` in VS Code with a CUDA-enabled PyTorch kernel. The notebook
+installs the remaining libraries, checks CUDA, runs a two-step smoke test, then
+fine-tunes XLM-R on English and English plus existing silver Kazakh.
+
+Training, development and paired evaluation families are disjoint, including their
+silver translations. Both runs select checkpoints on the same English + silver
+development data. The final evaluation also reruns TF-IDF on the reduced training
+pool. Bring back `gpu_results_summary.zip` for analysis; models stay on the GPU
+machine. The historical 300-pair test has informed earlier experiments and still
+needs native-speaker review.
+
+The updated bundle also includes `06_decisions_and_diffusion.ipynb`. It trains
+XLM-R to predict the original agent action (`--target action`) and adds a
+CARD-inspired conditional diffusion classifier for risk labels and actions.
+Diffusion is compared with linear and MLP heads on identical train-fitted text
+features. See [the experiment notes](reports/DECISIONS_AND_DIFFUSION.md) for sources,
+equations and limitations. These are offline prediction experiments; no actions
+are executed, and full GPU results are still pending.
+
 ## Expanding the Kazakh set
 
 ```

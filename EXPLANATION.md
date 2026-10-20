@@ -1083,3 +1083,34 @@ transformer in it:
 Only the last one is blocked, and a free Colab or Kaggle GPU session is enough for it.
 
 **Unchanged:** no native speaker has reviewed the Kazakh.
+
+---
+
+# Part 6. Action prediction and diffusion experiments prepared (20 October 2026)
+
+The teacher suggested investigating decision making and diffusion models. Both now
+have implementations in `notebooks/06_decisions_and_diffusion.ipynb`, included in
+the portable GPU bundle. Full GPU experiments have not run yet.
+
+**Action prediction:** predict the original `decision_class` from message text.
+The action field becomes the target and never an input. XLM-R supports this through
+`--target action`; it also retains the original risk-classification task. This is
+offline agreement with recorded agent actions, not an interactive agent or proof of
+safe behavior. The current 300-pair benchmark contains only five of the 13 actions,
+so the reports show class support and supported-class macro-F1 alongside the full
+output-schema score.
+
+**Diffusion:** a CARD-inspired conditional denoising model reconstructs one-hot
+risk or action labels from noise, conditioned on train-fitted text features and a
+frozen neural classifier. Matched linear and MLP classifiers use the same features.
+This experiment generates labels, not extra conversations. It is an adaptation,
+not a reproduction of CARD's reported results.
+
+Training and validation families, including their silver translations, are kept
+separate. Gold evaluation is an explicit final step. Local checks cover diffusion
+math, finite gradients, seeded sampling, target/input separation, and small CPU
+training/save/load/evaluation runs for both targets. These checks establish that the
+workflow runs; they are not evidence of improved classification performance.
+
+See [the experiment notes](reports/DECISIONS_AND_DIFFUSION.md) for primary sources,
+equations, evaluation limits, and the Windows GPU workflow.

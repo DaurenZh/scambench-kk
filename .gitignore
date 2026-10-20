@@ -11,6 +11,8 @@ data/splits/*.csv
 data/embeddings/*.npz
 data/silver/*.parquet
 data/release/*.parquet
+data/gpu_bundle/
+data/gpu_bundle.zip
 
 # The human-made artifacts ARE tracked (translations, scripts, docs, the reports):
 !data/labeled/labelling_report.md

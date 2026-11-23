@@ -1,0 +1,16 @@
+SPEAKING NOTES — use alongside defense_slides.pdf
+
+1. We extended ScamBench with a third risk class and a 300-conversation Kazakh evaluation slice, then used it to investigate cross-lingual transfer.
+2. Risk and action prediction answer different questions. The action field is a prediction target, never an input. We predict recorded actions; we are not evaluating an executing agent.
+3. Conversation restylings leak across the original splits. Current experiments hold whole families out, including their translated copies. New scores use a smaller training pool than the old 0.687 experiment.
+4. In the current matched split, word TF-IDF rises from 0.409 to 0.667 Kazakh three-class macro-F1 with silver data. Its merged-binary macro-F1 is 0.898. These are different tasks, not interchangeable scores.
+5. Word TF-IDF mixed training reaches 0.415 macro-F1 over the five action types present in the Kazakh test. We trained a 13-action schema, but eight actions cannot be evaluated on this slice. There is only one ignore example.
+6. Diffusion learns to remove noise from a label vector while conditioning on text features and a frozen neural classifier. It is a CARD-inspired adaptation. On the same features it has not established an improvement over the MLP. A negative result is part of the experiment.
+7. Word TF-IDF often calls SCAM examples SUSPICIOUS; weaker compressed-feature models also miss attacks as legitimate. The exported CSV supplies concrete examples for human inspection. Do not claim that those examples have already been reviewed.
+8. XLM-R completed three epochs and restores the best epoch-2 checkpoint. Verified English/Kazakh macro-F1 is 0.6873/0.6341; Kazakh binary macro-F1 is 0.8772. The matched sparse baseline remains higher in point estimates; paired intervals include zero. Supplied model weights reproduce all 600 predictions. Native-speaker review, more seeds and a fresh test set remain future work. Report these limits plainly.
+
+REVIEW TASK
+Open examples_for_review.csv in Excel. Inspect meaning preservation and source-label plausibility independently. Fill translation_review, label_review and reviewer_notes. Record reviewer identity and number actually reviewed. A selected review sample is diagnostic; it does not estimate whole-dataset quality without a suitable sampling design.
+
+FOLLOW-UP SLIDES 9–10
+We tested two explicit follow-ups: sparse model tuning on development data, and a richer word/character representation for matched MLP/diffusion heads. Show both original and follow-up scores; do not silently replace the first experiments. Distinguish gains over the initial diffusion system from evidence that diffusion beats its matched MLP. Test reuse makes these exploratory findings. Read the family-bootstrap intervals on slide 10.

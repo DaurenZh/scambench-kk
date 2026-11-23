@@ -1,0 +1,636 @@
+{
+  "test_en": {
+    "linear": {
+      "macro_f1": 0.14534989951128213,
+      "macro_f1_supported": 0.3779097387293336,
+      "accuracy": 0.5133333333333333,
+      "per_class": {
+        "accept": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "allow_safe_action": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "audit": {
+          "precision": 0.36,
+          "recall": 0.36,
+          "f1-score": 0.36,
+          "support": 25.0
+        },
+        "block_actor": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "deny_privileged_action": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "engage_legitimate": {
+          "precision": 0.7764705882352941,
+          "recall": 0.75,
+          "f1-score": 0.7630057803468208,
+          "support": 88.0
+        },
+        "escalate": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "execute_transaction": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "ignore": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "refuse": {
+          "precision": 0.8,
+          "recall": 0.12121212121212122,
+          "f1-score": 0.21052631578947367,
+          "support": 99.0
+        },
+        "request_verification": {
+          "precision": 0.43506493506493504,
+          "recall": 0.7701149425287356,
+          "f1-score": 0.5560165975103735,
+          "support": 87.0
+        },
+        "share_safe_info": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "warn_actor": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "accuracy": 0.5133333333333333,
+        "macro avg": {
+          "precision": 0.182425809484633,
+          "recall": 0.15394823567237356,
+          "f1-score": 0.14534989951128213,
+          "support": 300.0
+        },
+        "weighted avg": {
+          "precision": 0.6479335370511841,
+          "recall": 0.5133333333333333,
+          "f1-score": 0.4845335263902687,
+          "support": 300.0
+        }
+      }
+    },
+    "mlp": {
+      "macro_f1": 0.1734201471043576,
+      "macro_f1_supported": 0.4508923824713298,
+      "accuracy": 0.58,
+      "per_class": {
+        "accept": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "allow_safe_action": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "audit": {
+          "precision": 0.42857142857142855,
+          "recall": 0.6,
+          "f1-score": 0.5,
+          "support": 25.0
+        },
+        "block_actor": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "deny_privileged_action": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "engage_legitimate": {
+          "precision": 0.7831325301204819,
+          "recall": 0.7386363636363636,
+          "f1-score": 0.7602339181286549,
+          "support": 88.0
+        },
+        "escalate": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "execute_transaction": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "ignore": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "refuse": {
+          "precision": 0.9259259259259259,
+          "recall": 0.25252525252525254,
+          "f1-score": 0.3968253968253968,
+          "support": 99.0
+        },
+        "request_verification": {
+          "precision": 0.4791666666666667,
+          "recall": 0.7931034482758621,
+          "f1-score": 0.5974025974025974,
+          "support": 87.0
+        },
+        "share_safe_info": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "warn_actor": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "accuracy": 0.58,
+        "macro avg": {
+          "precision": 0.20129204240650023,
+          "recall": 0.18340500495672912,
+          "f1-score": 0.1734201471043576,
+          "support": 300.0
+        },
+        "weighted avg": {
+          "precision": 0.7099470501051826,
+          "recall": 0.58,
+          "f1-score": 0.5688677501835396,
+          "support": 300.0
+        }
+      }
+    },
+    "diffusion": {
+      "macro_f1": 0.17036636310739584,
+      "macro_f1_supported": 0.4429525440792291,
+      "accuracy": 0.5733333333333334,
+      "per_class": {
+        "accept": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "allow_safe_action": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "audit": {
+          "precision": 0.4117647058823529,
+          "recall": 0.56,
+          "f1-score": 0.4745762711864407,
+          "support": 25.0
+        },
+        "block_actor": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "deny_privileged_action": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "engage_legitimate": {
+          "precision": 0.7857142857142857,
+          "recall": 0.75,
+          "f1-score": 0.7674418604651163,
+          "support": 88.0
+        },
+        "escalate": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "execute_transaction": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "ignore": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "refuse": {
+          "precision": 0.9230769230769231,
+          "recall": 0.24242424242424243,
+          "f1-score": 0.384,
+          "support": 99.0
+        },
+        "request_verification": {
+          "precision": 0.4722222222222222,
+          "recall": 0.7816091954022989,
+          "f1-score": 0.5887445887445888,
+          "support": 87.0
+        },
+        "share_safe_info": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "warn_actor": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "accuracy": 0.5733333333333334,
+        "macro avg": {
+          "precision": 0.19944447206890648,
+          "recall": 0.17954103367896473,
+          "f1-score": 0.17036636310739584,
+          "support": 300.0
+        },
+        "weighted avg": {
+          "precision": 0.7063497450262157,
+          "recall": 0.5733333333333334,
+          "f1-score": 0.5621202324045683,
+          "support": 300.0
+        }
+      }
+    },
+    "prediction_seconds_excluding_features": {
+      "linear": 0.002196042000000009,
+      "mlp": 0.0006223340000000022,
+      "diffusion": 0.22683970799999997
+    },
+    "class_support": {
+      "accept": 0,
+      "allow_safe_action": 0,
+      "audit": 25,
+      "block_actor": 0,
+      "deny_privileged_action": 0,
+      "engage_legitimate": 88,
+      "escalate": 0,
+      "execute_transaction": 0,
+      "ignore": 1,
+      "refuse": 99,
+      "request_verification": 87,
+      "share_safe_info": 0,
+      "warn_actor": 0
+    },
+    "unseen_training_target_rows": 0
+  },
+  "test_kk": {
+    "linear": {
+      "macro_f1": 0.12309869524550268,
+      "macro_f1_supported": 0.320056607638307,
+      "accuracy": 0.46,
+      "per_class": {
+        "accept": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "allow_safe_action": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "audit": {
+          "precision": 0.23076923076923078,
+          "recall": 0.24,
+          "f1-score": 0.23529411764705882,
+          "support": 25.0
+        },
+        "block_actor": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "deny_privileged_action": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "engage_legitimate": {
+          "precision": 0.6629213483146067,
+          "recall": 0.6704545454545454,
+          "f1-score": 0.6666666666666666,
+          "support": 88.0
+        },
+        "escalate": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "execute_transaction": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "ignore": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "refuse": {
+          "precision": 0.6111111111111112,
+          "recall": 0.1111111111111111,
+          "f1-score": 0.18803418803418803,
+          "support": 99.0
+        },
+        "request_verification": {
+          "precision": 0.3974358974358974,
+          "recall": 0.7126436781609196,
+          "f1-score": 0.5102880658436214,
+          "support": 87.0
+        },
+        "share_safe_info": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "warn_actor": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "accuracy": 0.46,
+        "macro avg": {
+          "precision": 0.14632596827929584,
+          "recall": 0.13340071805589046,
+          "f1-score": 0.12309869524550268,
+          "support": 300.0
+        },
+        "weighted avg": {
+          "precision": 0.5306107749927975,
+          "recall": 0.46,
+          "f1-score": 0.42519821983874273,
+          "support": 300.0
+        }
+      }
+    },
+    "mlp": {
+      "macro_f1": 0.15785864920419893,
+      "macro_f1_supported": 0.41043248793091724,
+      "accuracy": 0.5533333333333333,
+      "per_class": {
+        "accept": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "allow_safe_action": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "audit": {
+          "precision": 0.4,
+          "recall": 0.48,
+          "f1-score": 0.43636363636363634,
+          "support": 25.0
+        },
+        "block_actor": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "deny_privileged_action": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "engage_legitimate": {
+          "precision": 0.6699029126213593,
+          "recall": 0.7840909090909091,
+          "f1-score": 0.7225130890052356,
+          "support": 88.0
+        },
+        "escalate": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "execute_transaction": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "ignore": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "refuse": {
+          "precision": 0.7307692307692307,
+          "recall": 0.1919191919191919,
+          "f1-score": 0.304,
+          "support": 99.0
+        },
+        "request_verification": {
+          "precision": 0.48175182481751827,
+          "recall": 0.7586206896551724,
+          "f1-score": 0.5892857142857143,
+          "support": 87.0
+        },
+        "share_safe_info": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "warn_actor": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "accuracy": 0.5533333333333333,
+        "macro avg": {
+          "precision": 0.1755710744775468,
+          "recall": 0.17035621466655948,
+          "f1-score": 0.15785864920419893,
+          "support": 300.0
+        },
+        "weighted avg": {
+          "precision": 0.6107000630531919,
+          "recall": 0.5533333333333333,
+          "f1-score": 0.5195136662813626,
+          "support": 300.0
+        }
+      }
+    },
+    "diffusion": {
+      "macro_f1": 0.1551153846000911,
+      "macro_f1_supported": 0.4032999999602369,
+      "accuracy": 0.5433333333333333,
+      "per_class": {
+        "accept": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "allow_safe_action": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "audit": {
+          "precision": 0.375,
+          "recall": 0.48,
+          "f1-score": 0.42105263157894735,
+          "support": 25.0
+        },
+        "block_actor": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "deny_privileged_action": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "engage_legitimate": {
+          "precision": 0.6601941747572816,
+          "recall": 0.7727272727272727,
+          "f1-score": 0.7120418848167539,
+          "support": 88.0
+        },
+        "escalate": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "execute_transaction": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "ignore": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "refuse": {
+          "precision": 0.7037037037037037,
+          "recall": 0.1919191919191919,
+          "f1-score": 0.30158730158730157,
+          "support": 99.0
+        },
+        "request_verification": {
+          "precision": 0.48120300751879697,
+          "recall": 0.735632183908046,
+          "f1-score": 0.5818181818181818,
+          "support": 87.0
+        },
+        "share_safe_info": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "warn_actor": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "accuracy": 0.5433333333333333,
+        "macro avg": {
+          "precision": 0.17077699122921403,
+          "recall": 0.16771374219650081,
+          "f1-score": 0.1551153846000911,
+          "support": 300.0
+        },
+        "weighted avg": {
+          "precision": 0.5966780523314759,
+          "recall": 0.5433333333333333,
+          "f1-score": 0.5122044210955757,
+          "support": 300.0
+        }
+      }
+    },
+    "prediction_seconds_excluding_features": {
+      "linear": 0.00024354199999976345,
+      "mlp": 0.00039962500000001455,
+      "diffusion": 0.2249296249999997
+    },
+    "class_support": {
+      "accept": 0,
+      "allow_safe_action": 0,
+      "audit": 25,
+      "block_actor": 0,
+      "deny_privileged_action": 0,
+      "engage_legitimate": 88,
+      "escalate": 0,
+      "execute_transaction": 0,
+      "ignore": 1,
+      "refuse": 99,
+      "request_verification": 87,
+      "share_safe_info": 0,
+      "warn_actor": 0
+    },
+    "unseen_training_target_rows": 0
+  }
+}

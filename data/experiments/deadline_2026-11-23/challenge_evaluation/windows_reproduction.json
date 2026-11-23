@@ -1,0 +1,14 @@
+{
+  "status": "supplied cross-platform replay verified",
+  "date": "2026-11-23",
+  "source_folder": "data/conversation_demo",
+  "platform": "Windows, as reported by user",
+  "python_recorded": "3.15.0",
+  "executed_code_cells": 8,
+  "cases": 27,
+  "matching_prediction_objects": 27,
+  "invariance_checks_match": true,
+  "unchanged_model_and_code_files": 13,
+  "cases_sha256": "3741ce8927271882d98a990448e257f91cfb5eb6331da48a1f04fa74d86b0d1f",
+  "interpretation": "Re-execution of the same frozen cases, not additional independent examples, retraining or a new accuracy benchmark."
+}

@@ -1,0 +1,50 @@
+{
+  "risk/test_en": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "diffusion minus matched MLP",
+    "ci95": [
+      -0.007803725845588255,
+      0.0435093152875621
+    ],
+    "interval_includes_zero": true
+  },
+  "risk/test_kk": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "diffusion minus matched MLP",
+    "ci95": [
+      -0.0706583508497241,
+      0.003260384978848188
+    ],
+    "interval_includes_zero": true
+  },
+  "action/test_en": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "diffusion minus matched MLP",
+    "ci95": [
+      -0.012524298684459376,
+      0.002798137818624359
+    ],
+    "interval_includes_zero": true
+  },
+  "action/test_kk": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "diffusion minus matched MLP",
+    "ci95": [
+      -0.04904004564365887,
+      0.004549619031160036
+    ],
+    "interval_includes_zero": true
+  }
+}

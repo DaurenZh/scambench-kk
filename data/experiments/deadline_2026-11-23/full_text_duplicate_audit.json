@@ -1,0 +1,1153 @@
+{
+  "exact": {
+    "development": {
+      "rows": 1607,
+      "overlapping_rows": 31,
+      "overlapping_by_language": {
+        "en": 23,
+        "kk": 8
+      },
+      "overlap": [
+        {
+          "id": "scambench-gen::gen-pi-translation-wrapper-pliny-0092",
+          "family": "scambench-gen::gen-pi-translation-wrapper-pliny-0092",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-translation-wrapper-friendly-casual-0055"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-translation-wrapper-friendly-casual-0055"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-document-embed-friendly-casual-0078",
+          "family": "scambench-gen::gen-pi-document-embed-friendly-casual-0078",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-document-embed-friendly-casual-0103"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-document-embed-friendly-casual-0103"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-tool-hijack-broken-english-0129",
+          "family": "scambench-gen::gen-pi-tool-hijack-broken-english-0129",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-tool-hijack-broken-english-0071",
+            "scambench-gen::gen-pi-tool-hijack-broken-english-0074",
+            "scambench-gen::gen-pi-tool-hijack-broken-english-0075",
+            "scambench-gen::gen-pi-tool-hijack-broken-english-0018"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-tool-hijack-broken-english-0018",
+            "scambench-gen::gen-pi-tool-hijack-broken-english-0071",
+            "scambench-gen::gen-pi-tool-hijack-broken-english-0074",
+            "scambench-gen::gen-pi-tool-hijack-broken-english-0075"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-tool-hijack-friendly-casual-0101",
+          "family": "scambench-gen::gen-pi-tool-hijack-friendly-casual-0101",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-tool-hijack-pliny-0111",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0037"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-tool-hijack-pliny-0037",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0111"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-translation-wrapper-neutral-0100",
+          "family": "scambench-gen::gen-pi-translation-wrapper-neutral-0100",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-translation-wrapper-pliny-0015"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-translation-wrapper-pliny-0015"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-tool-hijack-neutral-0073",
+          "family": "scambench-gen::gen-pi-tool-hijack-neutral-0073",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0136",
+            "scambench-gen::gen-pi-tool-hijack-internet-english-0009",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0019",
+            "scambench-gen::gen-pi-tool-hijack-neutral-0036",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0070",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0108",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0122",
+            "scambench-gen::gen-pi-tool-hijack-neutral-0102",
+            "scambench-gen::gen-pi-tool-hijack-neutral-0120",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0115",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0011",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0135",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0103",
+            "scambench-gen::gen-pi-tool-hijack-internet-english-0045",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0000",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0004",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0092"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0103",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0108",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0122",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0136",
+            "scambench-gen::gen-pi-tool-hijack-internet-english-0009",
+            "scambench-gen::gen-pi-tool-hijack-internet-english-0045",
+            "scambench-gen::gen-pi-tool-hijack-neutral-0036",
+            "scambench-gen::gen-pi-tool-hijack-neutral-0102",
+            "scambench-gen::gen-pi-tool-hijack-neutral-0120",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0000",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0004",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0011",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0019",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0070",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0092",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0115",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0135"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-translation-wrapper-pliny-0018",
+          "family": "scambench-gen::gen-pi-translation-wrapper-pliny-0018",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-translation-wrapper-neutral-0110"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-translation-wrapper-neutral-0110"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-tool-hijack-professional-wordy-0088",
+          "family": "scambench-gen::gen-pi-tool-hijack-professional-wordy-0088",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-tool-hijack-professional-wordy-0050",
+            "scambench-gen::gen-pi-tool-hijack-professional-wordy-0065",
+            "scambench-gen::gen-pi-tool-hijack-professional-wordy-0055",
+            "scambench-gen::gen-pi-tool-hijack-professional-wordy-0003",
+            "scambench-gen::gen-pi-tool-hijack-professional-wordy-0128"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-tool-hijack-professional-wordy-0003",
+            "scambench-gen::gen-pi-tool-hijack-professional-wordy-0050",
+            "scambench-gen::gen-pi-tool-hijack-professional-wordy-0055",
+            "scambench-gen::gen-pi-tool-hijack-professional-wordy-0065",
+            "scambench-gen::gen-pi-tool-hijack-professional-wordy-0128"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-translation-wrapper-internet-english-0126",
+          "family": "scambench-gen::gen-pi-translation-wrapper-internet-english-0126",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-translation-wrapper-internet-english-0096",
+            "scambench-gen::gen-pi-translation-wrapper-internet-english-0030"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-translation-wrapper-internet-english-0030",
+            "scambench-gen::gen-pi-translation-wrapper-internet-english-0096"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-translation-wrapper-friendly-casual-0119",
+          "family": "scambench-gen::gen-pi-translation-wrapper-friendly-casual-0119",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-translation-wrapper-neutral-0065"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-translation-wrapper-neutral-0065"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-translation-wrapper-friendly-casual-0074",
+          "family": "scambench-gen::gen-pi-translation-wrapper-friendly-casual-0074",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-translation-wrapper-neutral-0076"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-translation-wrapper-neutral-0076"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-tool-hijack-pliny-0062",
+          "family": "scambench-gen::gen-pi-tool-hijack-pliny-0062",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-tool-hijack-neutral-0098"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-tool-hijack-neutral-0098"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-tool-hijack-friendly-casual-0026",
+          "family": "scambench-gen::gen-pi-tool-hijack-friendly-casual-0026",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0046",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0063"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0046",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0063"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-document-embed-neutral-0041",
+          "family": "scambench-gen::gen-pi-document-embed-neutral-0041",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-document-embed-pliny-0023"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-document-embed-pliny-0023"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-override-extract-pliny-0020",
+          "family": "scambench-gen::gen-pi-override-extract-pliny-0020",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-override-extract-pliny-0017"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-override-extract-pliny-0017"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-document-embed-professional-wordy-0015",
+          "family": "scambench-gen::gen-pi-document-embed-professional-wordy-0015",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-document-embed-professional-wordy-0112"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-document-embed-professional-wordy-0112"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-tool-hijack-pliny-0082",
+          "family": "scambench-gen::gen-pi-tool-hijack-pliny-0082",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0136",
+            "scambench-gen::gen-pi-tool-hijack-internet-english-0009",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0019",
+            "scambench-gen::gen-pi-tool-hijack-neutral-0036",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0070",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0108",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0122",
+            "scambench-gen::gen-pi-tool-hijack-neutral-0102",
+            "scambench-gen::gen-pi-tool-hijack-neutral-0120",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0115",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0011",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0135",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0103",
+            "scambench-gen::gen-pi-tool-hijack-internet-english-0045",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0000",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0004",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0092"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0103",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0108",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0122",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0136",
+            "scambench-gen::gen-pi-tool-hijack-internet-english-0009",
+            "scambench-gen::gen-pi-tool-hijack-internet-english-0045",
+            "scambench-gen::gen-pi-tool-hijack-neutral-0036",
+            "scambench-gen::gen-pi-tool-hijack-neutral-0102",
+            "scambench-gen::gen-pi-tool-hijack-neutral-0120",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0000",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0004",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0011",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0019",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0070",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0092",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0115",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0135"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-translation-wrapper-friendly-casual-0047",
+          "family": "scambench-gen::gen-pi-translation-wrapper-friendly-casual-0047",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-translation-wrapper-pliny-0020"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-translation-wrapper-pliny-0020"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-ra-codebase-aware-pliny-0006",
+          "family": "scambench-gen::gen-ra-codebase-aware-pliny-0006",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-ra-codebase-aware-pliny-0025",
+            "scambench-gen::gen-ra-codebase-aware-pliny-0078",
+            "scambench-gen::gen-ra-codebase-aware-pliny-0000"
+          ],
+          "train_families": [
+            "scambench-gen::gen-ra-codebase-aware-pliny-0000",
+            "scambench-gen::gen-ra-codebase-aware-pliny-0025",
+            "scambench-gen::gen-ra-codebase-aware-pliny-0078"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-soc-job-scam-broken-english-0070",
+          "family": "scambench-gen::gen-soc-job-scam-broken-english-0070",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-soc-job-scam-internet-english-0013",
+            "scambench-gen::gen-soc-job-scam-internet-english-0061"
+          ],
+          "train_families": [
+            "scambench-gen::gen-soc-job-scam-internet-english-0013",
+            "scambench-gen::gen-soc-job-scam-internet-english-0061"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-soc-job-scam-internet-english-0018",
+          "family": "scambench-gen::gen-soc-job-scam-internet-english-0018",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-soc-job-scam-internet-english-0013",
+            "scambench-gen::gen-soc-job-scam-internet-english-0061"
+          ],
+          "train_families": [
+            "scambench-gen::gen-soc-job-scam-internet-english-0013",
+            "scambench-gen::gen-soc-job-scam-internet-english-0061"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-soc-job-scam-neutral-0041",
+          "family": "scambench-gen::gen-soc-job-scam-neutral-0041",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-soc-job-scam-friendly-casual-0128"
+          ],
+          "train_families": [
+            "scambench-gen::gen-soc-job-scam-friendly-casual-0128"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-soc-romance-long-pliny-0047",
+          "family": "scambench-gen::gen-soc-romance-long-pliny-0047",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-soc-romance-long-friendly-casual-0012"
+          ],
+          "train_families": [
+            "scambench-gen::gen-soc-romance-long-friendly-casual-0012"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-tool-hijack-pliny-0062::kk_mt",
+          "family": "scambench-gen::gen-pi-tool-hijack-pliny-0062",
+          "language": "kk",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-tool-hijack-neutral-0098::kk_mt"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-tool-hijack-neutral-0098"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "babylon::awesome-linked-injectlab-output-manipulation-6::stage-2::1::kk_mt",
+          "family": "babylon::awesome-linked-injectlab-output-manipulation-6::stage-2::1",
+          "language": "kk",
+          "label": 2,
+          "train_ids": [
+            "babylon::awesome-linked-injectlab-output-manipulation-5::stage-2::1::kk_mt"
+          ],
+          "train_families": [
+            "babylon::awesome-linked-injectlab-output-manipulation-5::stage-2::1"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-override-extract-pliny-0090::kk_mt",
+          "family": "scambench-gen::gen-pi-override-extract-pliny-0090",
+          "language": "kk",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-override-extract-pliny-0103::kk_mt"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-override-extract-pliny-0103"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-tool-hijack-professional-wordy-0088::kk_mt",
+          "family": "scambench-gen::gen-pi-tool-hijack-professional-wordy-0088",
+          "language": "kk",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-tool-hijack-professional-wordy-0050::kk_mt"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-tool-hijack-professional-wordy-0050"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-soc-job-scam-neutral-0041::kk_mt",
+          "family": "scambench-gen::gen-soc-job-scam-neutral-0041",
+          "language": "kk",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-soc-job-scam-friendly-casual-0128::kk_mt"
+          ],
+          "train_families": [
+            "scambench-gen::gen-soc-job-scam-friendly-casual-0128"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-translation-wrapper-friendly-casual-0119::kk_mt",
+          "family": "scambench-gen::gen-pi-translation-wrapper-friendly-casual-0119",
+          "language": "kk",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-translation-wrapper-neutral-0065::kk_mt"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-translation-wrapper-neutral-0065"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-document-embed-pliny-0012::kk_mt",
+          "family": "scambench-gen::gen-pi-document-embed-pliny-0012",
+          "language": "kk",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-document-embed-internet-english-0040::kk_mt"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-document-embed-internet-english-0040"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-soc-romance-long-internet-english-0004::kk_mt",
+          "family": "scambench-gen::gen-soc-romance-long-internet-english-0004",
+          "language": "kk",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-soc-romance-long-neutral-0113::kk_mt"
+          ],
+          "train_families": [
+            "scambench-gen::gen-soc-romance-long-neutral-0113"
+          ],
+          "train_labels": [
+            2
+          ]
+        }
+      ]
+    },
+    "test": {
+      "rows": 600,
+      "overlapping_rows": 0,
+      "overlapping_by_language": {},
+      "overlap": []
+    }
+  },
+  "whitespace_normalized": {
+    "development": {
+      "rows": 1607,
+      "overlapping_rows": 31,
+      "overlapping_by_language": {
+        "en": 23,
+        "kk": 8
+      },
+      "overlap": [
+        {
+          "id": "scambench-gen::gen-pi-translation-wrapper-pliny-0092",
+          "family": "scambench-gen::gen-pi-translation-wrapper-pliny-0092",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-translation-wrapper-friendly-casual-0055"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-translation-wrapper-friendly-casual-0055"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-document-embed-friendly-casual-0078",
+          "family": "scambench-gen::gen-pi-document-embed-friendly-casual-0078",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-document-embed-friendly-casual-0103"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-document-embed-friendly-casual-0103"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-tool-hijack-broken-english-0129",
+          "family": "scambench-gen::gen-pi-tool-hijack-broken-english-0129",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-tool-hijack-broken-english-0071",
+            "scambench-gen::gen-pi-tool-hijack-broken-english-0074",
+            "scambench-gen::gen-pi-tool-hijack-broken-english-0075",
+            "scambench-gen::gen-pi-tool-hijack-broken-english-0018"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-tool-hijack-broken-english-0018",
+            "scambench-gen::gen-pi-tool-hijack-broken-english-0071",
+            "scambench-gen::gen-pi-tool-hijack-broken-english-0074",
+            "scambench-gen::gen-pi-tool-hijack-broken-english-0075"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-tool-hijack-friendly-casual-0101",
+          "family": "scambench-gen::gen-pi-tool-hijack-friendly-casual-0101",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-tool-hijack-pliny-0111",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0037"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-tool-hijack-pliny-0037",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0111"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-translation-wrapper-neutral-0100",
+          "family": "scambench-gen::gen-pi-translation-wrapper-neutral-0100",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-translation-wrapper-pliny-0015"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-translation-wrapper-pliny-0015"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-tool-hijack-neutral-0073",
+          "family": "scambench-gen::gen-pi-tool-hijack-neutral-0073",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0136",
+            "scambench-gen::gen-pi-tool-hijack-internet-english-0009",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0019",
+            "scambench-gen::gen-pi-tool-hijack-neutral-0036",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0070",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0108",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0122",
+            "scambench-gen::gen-pi-tool-hijack-neutral-0102",
+            "scambench-gen::gen-pi-tool-hijack-neutral-0120",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0115",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0011",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0135",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0103",
+            "scambench-gen::gen-pi-tool-hijack-internet-english-0045",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0000",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0004",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0092"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0103",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0108",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0122",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0136",
+            "scambench-gen::gen-pi-tool-hijack-internet-english-0009",
+            "scambench-gen::gen-pi-tool-hijack-internet-english-0045",
+            "scambench-gen::gen-pi-tool-hijack-neutral-0036",
+            "scambench-gen::gen-pi-tool-hijack-neutral-0102",
+            "scambench-gen::gen-pi-tool-hijack-neutral-0120",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0000",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0004",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0011",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0019",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0070",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0092",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0115",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0135"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-translation-wrapper-pliny-0018",
+          "family": "scambench-gen::gen-pi-translation-wrapper-pliny-0018",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-translation-wrapper-neutral-0110"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-translation-wrapper-neutral-0110"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-tool-hijack-professional-wordy-0088",
+          "family": "scambench-gen::gen-pi-tool-hijack-professional-wordy-0088",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-tool-hijack-professional-wordy-0050",
+            "scambench-gen::gen-pi-tool-hijack-professional-wordy-0065",
+            "scambench-gen::gen-pi-tool-hijack-professional-wordy-0055",
+            "scambench-gen::gen-pi-tool-hijack-professional-wordy-0003",
+            "scambench-gen::gen-pi-tool-hijack-professional-wordy-0128"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-tool-hijack-professional-wordy-0003",
+            "scambench-gen::gen-pi-tool-hijack-professional-wordy-0050",
+            "scambench-gen::gen-pi-tool-hijack-professional-wordy-0055",
+            "scambench-gen::gen-pi-tool-hijack-professional-wordy-0065",
+            "scambench-gen::gen-pi-tool-hijack-professional-wordy-0128"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-translation-wrapper-internet-english-0126",
+          "family": "scambench-gen::gen-pi-translation-wrapper-internet-english-0126",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-translation-wrapper-internet-english-0096",
+            "scambench-gen::gen-pi-translation-wrapper-internet-english-0030"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-translation-wrapper-internet-english-0030",
+            "scambench-gen::gen-pi-translation-wrapper-internet-english-0096"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-translation-wrapper-friendly-casual-0119",
+          "family": "scambench-gen::gen-pi-translation-wrapper-friendly-casual-0119",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-translation-wrapper-neutral-0065"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-translation-wrapper-neutral-0065"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-translation-wrapper-friendly-casual-0074",
+          "family": "scambench-gen::gen-pi-translation-wrapper-friendly-casual-0074",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-translation-wrapper-neutral-0076"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-translation-wrapper-neutral-0076"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-tool-hijack-pliny-0062",
+          "family": "scambench-gen::gen-pi-tool-hijack-pliny-0062",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-tool-hijack-neutral-0098"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-tool-hijack-neutral-0098"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-tool-hijack-friendly-casual-0026",
+          "family": "scambench-gen::gen-pi-tool-hijack-friendly-casual-0026",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0046",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0063"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0046",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0063"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-document-embed-neutral-0041",
+          "family": "scambench-gen::gen-pi-document-embed-neutral-0041",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-document-embed-pliny-0023"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-document-embed-pliny-0023"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-override-extract-pliny-0020",
+          "family": "scambench-gen::gen-pi-override-extract-pliny-0020",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-override-extract-pliny-0017"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-override-extract-pliny-0017"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-document-embed-professional-wordy-0015",
+          "family": "scambench-gen::gen-pi-document-embed-professional-wordy-0015",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-document-embed-professional-wordy-0112"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-document-embed-professional-wordy-0112"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-tool-hijack-pliny-0082",
+          "family": "scambench-gen::gen-pi-tool-hijack-pliny-0082",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0136",
+            "scambench-gen::gen-pi-tool-hijack-internet-english-0009",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0019",
+            "scambench-gen::gen-pi-tool-hijack-neutral-0036",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0070",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0108",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0122",
+            "scambench-gen::gen-pi-tool-hijack-neutral-0102",
+            "scambench-gen::gen-pi-tool-hijack-neutral-0120",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0115",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0011",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0135",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0103",
+            "scambench-gen::gen-pi-tool-hijack-internet-english-0045",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0000",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0004",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0092"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0103",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0108",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0122",
+            "scambench-gen::gen-pi-tool-hijack-friendly-casual-0136",
+            "scambench-gen::gen-pi-tool-hijack-internet-english-0009",
+            "scambench-gen::gen-pi-tool-hijack-internet-english-0045",
+            "scambench-gen::gen-pi-tool-hijack-neutral-0036",
+            "scambench-gen::gen-pi-tool-hijack-neutral-0102",
+            "scambench-gen::gen-pi-tool-hijack-neutral-0120",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0000",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0004",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0011",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0019",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0070",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0092",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0115",
+            "scambench-gen::gen-pi-tool-hijack-pliny-0135"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-translation-wrapper-friendly-casual-0047",
+          "family": "scambench-gen::gen-pi-translation-wrapper-friendly-casual-0047",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-translation-wrapper-pliny-0020"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-translation-wrapper-pliny-0020"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-ra-codebase-aware-pliny-0006",
+          "family": "scambench-gen::gen-ra-codebase-aware-pliny-0006",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-ra-codebase-aware-pliny-0025",
+            "scambench-gen::gen-ra-codebase-aware-pliny-0078",
+            "scambench-gen::gen-ra-codebase-aware-pliny-0000"
+          ],
+          "train_families": [
+            "scambench-gen::gen-ra-codebase-aware-pliny-0000",
+            "scambench-gen::gen-ra-codebase-aware-pliny-0025",
+            "scambench-gen::gen-ra-codebase-aware-pliny-0078"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-soc-job-scam-broken-english-0070",
+          "family": "scambench-gen::gen-soc-job-scam-broken-english-0070",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-soc-job-scam-internet-english-0013",
+            "scambench-gen::gen-soc-job-scam-internet-english-0061"
+          ],
+          "train_families": [
+            "scambench-gen::gen-soc-job-scam-internet-english-0013",
+            "scambench-gen::gen-soc-job-scam-internet-english-0061"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-soc-job-scam-internet-english-0018",
+          "family": "scambench-gen::gen-soc-job-scam-internet-english-0018",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-soc-job-scam-internet-english-0013",
+            "scambench-gen::gen-soc-job-scam-internet-english-0061"
+          ],
+          "train_families": [
+            "scambench-gen::gen-soc-job-scam-internet-english-0013",
+            "scambench-gen::gen-soc-job-scam-internet-english-0061"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-soc-job-scam-neutral-0041",
+          "family": "scambench-gen::gen-soc-job-scam-neutral-0041",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-soc-job-scam-friendly-casual-0128"
+          ],
+          "train_families": [
+            "scambench-gen::gen-soc-job-scam-friendly-casual-0128"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-soc-romance-long-pliny-0047",
+          "family": "scambench-gen::gen-soc-romance-long-pliny-0047",
+          "language": "en",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-soc-romance-long-friendly-casual-0012"
+          ],
+          "train_families": [
+            "scambench-gen::gen-soc-romance-long-friendly-casual-0012"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-tool-hijack-pliny-0062::kk_mt",
+          "family": "scambench-gen::gen-pi-tool-hijack-pliny-0062",
+          "language": "kk",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-tool-hijack-neutral-0098::kk_mt"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-tool-hijack-neutral-0098"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "babylon::awesome-linked-injectlab-output-manipulation-6::stage-2::1::kk_mt",
+          "family": "babylon::awesome-linked-injectlab-output-manipulation-6::stage-2::1",
+          "language": "kk",
+          "label": 2,
+          "train_ids": [
+            "babylon::awesome-linked-injectlab-output-manipulation-5::stage-2::1::kk_mt"
+          ],
+          "train_families": [
+            "babylon::awesome-linked-injectlab-output-manipulation-5::stage-2::1"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-override-extract-pliny-0090::kk_mt",
+          "family": "scambench-gen::gen-pi-override-extract-pliny-0090",
+          "language": "kk",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-override-extract-pliny-0103::kk_mt"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-override-extract-pliny-0103"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-tool-hijack-professional-wordy-0088::kk_mt",
+          "family": "scambench-gen::gen-pi-tool-hijack-professional-wordy-0088",
+          "language": "kk",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-tool-hijack-professional-wordy-0050::kk_mt"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-tool-hijack-professional-wordy-0050"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-soc-job-scam-neutral-0041::kk_mt",
+          "family": "scambench-gen::gen-soc-job-scam-neutral-0041",
+          "language": "kk",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-soc-job-scam-friendly-casual-0128::kk_mt"
+          ],
+          "train_families": [
+            "scambench-gen::gen-soc-job-scam-friendly-casual-0128"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-translation-wrapper-friendly-casual-0119::kk_mt",
+          "family": "scambench-gen::gen-pi-translation-wrapper-friendly-casual-0119",
+          "language": "kk",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-translation-wrapper-neutral-0065::kk_mt"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-translation-wrapper-neutral-0065"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-pi-document-embed-pliny-0012::kk_mt",
+          "family": "scambench-gen::gen-pi-document-embed-pliny-0012",
+          "language": "kk",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-pi-document-embed-internet-english-0040::kk_mt"
+          ],
+          "train_families": [
+            "scambench-gen::gen-pi-document-embed-internet-english-0040"
+          ],
+          "train_labels": [
+            2
+          ]
+        },
+        {
+          "id": "scambench-gen::gen-soc-romance-long-internet-english-0004::kk_mt",
+          "family": "scambench-gen::gen-soc-romance-long-internet-english-0004",
+          "language": "kk",
+          "label": 2,
+          "train_ids": [
+            "scambench-gen::gen-soc-romance-long-neutral-0113::kk_mt"
+          ],
+          "train_families": [
+            "scambench-gen::gen-soc-romance-long-neutral-0113"
+          ],
+          "train_labels": [
+            2
+          ]
+        }
+      ]
+    },
+    "test": {
+      "rows": 600,
+      "overlapping_rows": 0,
+      "overlapping_by_language": {},
+      "overlap": []
+    }
+  },
+  "interpretation": "Family IDs are disjoint, but identical full texts can cross families. Do not alter the active run; report development-selection caveat and keep final test evaluation separate. This audit does not rule out near-duplicates."
+}

@@ -1,0 +1,50 @@
+{
+  "test_en/three_class": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "XLM-R minus original mixed word TF-IDF",
+    "ci95": [
+      -0.04814352536134281,
+      0.04620248509747764
+    ],
+    "interval_includes_zero": true
+  },
+  "test_en/binary": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "XLM-R minus original mixed word TF-IDF",
+    "ci95": [
+      -0.038637669953765094,
+      0.010026675921567257
+    ],
+    "interval_includes_zero": true
+  },
+  "test_kk/three_class": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "XLM-R minus original mixed word TF-IDF",
+    "ci95": [
+      -0.10251249871921995,
+      0.033228575753856904
+    ],
+    "interval_includes_zero": true
+  },
+  "test_kk/binary": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "XLM-R minus original mixed word TF-IDF",
+    "ci95": [
+      -0.06871560051589615,
+      0.02738637663591771
+    ],
+    "interval_includes_zero": true
+  }
+}

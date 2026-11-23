@@ -214,13 +214,18 @@ pool. Bring back `gpu_results_summary.zip` for analysis; models stay on the GPU
 machine. The historical 300-pair test has informed earlier experiments and still
 needs native-speaker review.
 
+The notebooks now default to a 4 GB GPU configuration (batch 1, 256 tokens,
+Adafactor), with a checkpoint after update 1 and then every 50 updates, persistent
+console logs, and explicit resume helpers. These settings change the original
+AdamW/512-token experiment. See [the Windows guide](reports/WINDOWS_4GB.md).
+
 The updated bundle also includes `06_decisions_and_diffusion.ipynb`. It trains
 XLM-R to predict the original agent action (`--target action`) and adds a
 CARD-inspired conditional diffusion classifier for risk labels and actions.
 Diffusion is compared with linear and MLP heads on identical train-fitted text
 features. See [the experiment notes](reports/DECISIONS_AND_DIFFUSION.md) for sources,
 equations and limitations. These are offline prediction experiments; no actions
-are executed, and full GPU results are still pending.
+are executed. The completed three-epoch mixed-risk XLM-R run is verified: Kazakh three-class macro-F1 **0.6341**, binary **0.8772**; best development checkpoint is epoch 2. The matched word TF-IDF baseline remains higher in point estimates (0.6675 / 0.8983); paired-family intervals include zero. XLM-R action and English-only fine-tuning are not completed by this artifact. See `data/experiments/deadline_2026-11-23/submission/` for updated deliverables.
 
 ## Expanding the Kazakh set
 

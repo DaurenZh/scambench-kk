@@ -1,0 +1,341 @@
+{
+  "confusions": {
+    "risk/mlp": [
+      {
+        "reference": "SCAM",
+        "predicted": "LEGITIMATE",
+        "count": 51
+      },
+      {
+        "reference": "SUSPICIOUS",
+        "predicted": "LEGITIMATE",
+        "count": 34
+      },
+      {
+        "reference": "SCAM",
+        "predicted": "SUSPICIOUS",
+        "count": 24
+      },
+      {
+        "reference": "SUSPICIOUS",
+        "predicted": "SCAM",
+        "count": 13
+      },
+      {
+        "reference": "LEGITIMATE",
+        "predicted": "SUSPICIOUS",
+        "count": 2
+      },
+      {
+        "reference": "LEGITIMATE",
+        "predicted": "SCAM",
+        "count": 1
+      }
+    ],
+    "risk/diffusion": [
+      {
+        "reference": "SCAM",
+        "predicted": "LEGITIMATE",
+        "count": 50
+      },
+      {
+        "reference": "SUSPICIOUS",
+        "predicted": "LEGITIMATE",
+        "count": 35
+      },
+      {
+        "reference": "SCAM",
+        "predicted": "SUSPICIOUS",
+        "count": 32
+      },
+      {
+        "reference": "SUSPICIOUS",
+        "predicted": "SCAM",
+        "count": 11
+      },
+      {
+        "reference": "LEGITIMATE",
+        "predicted": "SUSPICIOUS",
+        "count": 2
+      },
+      {
+        "reference": "LEGITIMATE",
+        "predicted": "SCAM",
+        "count": 1
+      }
+    ],
+    "risk/tfidf": [
+      {
+        "reference": "SCAM",
+        "predicted": "SUSPICIOUS",
+        "count": 53
+      },
+      {
+        "reference": "SCAM",
+        "predicted": "LEGITIMATE",
+        "count": 16
+      },
+      {
+        "reference": "SUSPICIOUS",
+        "predicted": "SCAM",
+        "count": 10
+      },
+      {
+        "reference": "LEGITIMATE",
+        "predicted": "SUSPICIOUS",
+        "count": 6
+      },
+      {
+        "reference": "SUSPICIOUS",
+        "predicted": "LEGITIMATE",
+        "count": 5
+      },
+      {
+        "reference": "LEGITIMATE",
+        "predicted": "SCAM",
+        "count": 1
+      }
+    ],
+    "action/mlp": [
+      {
+        "reference": "refuse",
+        "predicted": "request_verification",
+        "count": 37
+      },
+      {
+        "reference": "refuse",
+        "predicted": "engage_legitimate",
+        "count": 35
+      },
+      {
+        "reference": "engage_legitimate",
+        "predicted": "request_verification",
+        "count": 15
+      },
+      {
+        "reference": "request_verification",
+        "predicted": "engage_legitimate",
+        "count": 14
+      },
+      {
+        "reference": "audit",
+        "predicted": "engage_legitimate",
+        "count": 10
+      },
+      {
+        "reference": "refuse",
+        "predicted": "audit",
+        "count": 5
+      },
+      {
+        "reference": "audit",
+        "predicted": "request_verification",
+        "count": 5
+      },
+      {
+        "reference": "request_verification",
+        "predicted": "refuse",
+        "count": 5
+      },
+      {
+        "reference": "refuse",
+        "predicted": "allow_safe_action",
+        "count": 4
+      },
+      {
+        "reference": "engage_legitimate",
+        "predicted": "accept",
+        "count": 2
+      },
+      {
+        "reference": "audit",
+        "predicted": "refuse",
+        "count": 2
+      },
+      {
+        "reference": "request_verification",
+        "predicted": "audit",
+        "count": 2
+      },
+      {
+        "reference": "engage_legitimate",
+        "predicted": "audit",
+        "count": 1
+      },
+      {
+        "reference": "request_verification",
+        "predicted": "escalate",
+        "count": 1
+      },
+      {
+        "reference": "ignore",
+        "predicted": "refuse",
+        "count": 1
+      },
+      {
+        "reference": "refuse",
+        "predicted": "accept",
+        "count": 1
+      },
+      {
+        "reference": "request_verification",
+        "predicted": "allow_safe_action",
+        "count": 1
+      }
+    ],
+    "action/diffusion": [
+      {
+        "reference": "refuse",
+        "predicted": "request_verification",
+        "count": 36
+      },
+      {
+        "reference": "refuse",
+        "predicted": "engage_legitimate",
+        "count": 30
+      },
+      {
+        "reference": "request_verification",
+        "predicted": "engage_legitimate",
+        "count": 17
+      },
+      {
+        "reference": "engage_legitimate",
+        "predicted": "request_verification",
+        "count": 16
+      },
+      {
+        "reference": "request_verification",
+        "predicted": "refuse",
+        "count": 11
+      },
+      {
+        "reference": "audit",
+        "predicted": "engage_legitimate",
+        "count": 10
+      },
+      {
+        "reference": "refuse",
+        "predicted": "audit",
+        "count": 7
+      },
+      {
+        "reference": "audit",
+        "predicted": "request_verification",
+        "count": 6
+      },
+      {
+        "reference": "refuse",
+        "predicted": "allow_safe_action",
+        "count": 4
+      },
+      {
+        "reference": "request_verification",
+        "predicted": "audit",
+        "count": 3
+      },
+      {
+        "reference": "engage_legitimate",
+        "predicted": "audit",
+        "count": 2
+      },
+      {
+        "reference": "engage_legitimate",
+        "predicted": "accept",
+        "count": 2
+      },
+      {
+        "reference": "audit",
+        "predicted": "refuse",
+        "count": 2
+      },
+      {
+        "reference": "request_verification",
+        "predicted": "escalate",
+        "count": 1
+      },
+      {
+        "reference": "ignore",
+        "predicted": "refuse",
+        "count": 1
+      },
+      {
+        "reference": "refuse",
+        "predicted": "accept",
+        "count": 1
+      }
+    ],
+    "action/tfidf": [
+      {
+        "reference": "refuse",
+        "predicted": "request_verification",
+        "count": 65
+      },
+      {
+        "reference": "engage_legitimate",
+        "predicted": "request_verification",
+        "count": 32
+      },
+      {
+        "reference": "audit",
+        "predicted": "request_verification",
+        "count": 14
+      },
+      {
+        "reference": "refuse",
+        "predicted": "engage_legitimate",
+        "count": 7
+      },
+      {
+        "reference": "request_verification",
+        "predicted": "engage_legitimate",
+        "count": 6
+      },
+      {
+        "reference": "request_verification",
+        "predicted": "refuse",
+        "count": 4
+      },
+      {
+        "reference": "audit",
+        "predicted": "refuse",
+        "count": 3
+      },
+      {
+        "reference": "engage_legitimate",
+        "predicted": "refuse",
+        "count": 2
+      },
+      {
+        "reference": "ignore",
+        "predicted": "request_verification",
+        "count": 1
+      },
+      {
+        "reference": "refuse",
+        "predicted": "audit",
+        "count": 1
+      },
+      {
+        "reference": "engage_legitimate",
+        "predicted": "audit",
+        "count": 1
+      },
+      {
+        "reference": "request_verification",
+        "predicted": "audit",
+        "count": 1
+      }
+    ]
+  },
+  "changes": {
+    "risk": {
+      "fixes": 7,
+      "regressions": 13
+    },
+    "action": {
+      "fixes": 7,
+      "regressions": 15
+    }
+  }
+}

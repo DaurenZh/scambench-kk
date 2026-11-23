@@ -111,8 +111,32 @@ def selection_score(y, pred, classes):
 
 def device_for(name):
     if name == "cuda" and not torch.cuda.is_available():
-        raise SystemExit("CUDA is unavailable in this kernel. Use --device cpu only for a local smoke test.")
+        raise SystemExit("CUDA is unavailable in this kernel. Use --device cpu to run without CUDA.")
+    if name == "cpu":
+        torch.set_num_threads(min(4, torch.get_num_threads()))
     return torch.device(name)
+
+
+def semantic_matrix(rows, path):
+    """Read frozen text/role features and verify row identity and text provenance."""
+    cached = np.load(path, allow_pickle=False)
+    names = cached["feature_names"].tolist()
+    if not all(n.startswith(("semantic_", "struct_", "surface_", "entity_", "lex_")) for n in names):
+        raise ValueError("Unapproved semantic-cache feature name")
+    features = cached["features"]
+    if features.shape[1] != len(names):
+        raise ValueError("Semantic-cache feature schema mismatch")
+    index = {identifier: i for i, identifier in enumerate(cached["ids"].tolist())}
+    positions = []
+    for row in rows:
+        position = index[row["id"]]
+        if cached["text_sha256"][position] != hashlib.sha256(row["text"].encode()).hexdigest():
+            raise ValueError("Semantic-cache text differs from current row")
+        positions.append(position)
+    result = features[positions].astype(np.float32)
+    if not np.isfinite(result).all():
+        raise ValueError("Nonfinite semantic features")
+    return result
 
 
 def train(args):
@@ -120,6 +144,7 @@ def train(args):
     from sklearn.feature_extraction.text import TfidfVectorizer
     from sklearn.preprocessing import StandardScaler
     from sklearn.svm import LinearSVC
+    from sklearn.pipeline import FeatureUnion
 
     root, output = pathlib.Path(args.data), pathlib.Path(args.output)
     output.mkdir(parents=True, exist_ok=True)
@@ -147,22 +172,40 @@ def train(args):
     if train_groups & {r["family"] for r in development}:
         raise ValueError("Training and development families overlap")
 
-    vectorizer = TfidfVectorizer(ngram_range=(1, 2), min_df=2, max_features=50_000, sublinear_tf=True)
-    sparse = vectorizer.fit_transform([r["text"] for r in training])
-    dimensions = min(args.dimensions, sparse.shape[0] - 1, sparse.shape[1] - 1)
-    if dimensions < 2:
-        raise ValueError("Not enough distinct text to fit the feature representation")
-    svd = TruncatedSVD(n_components=dimensions, random_state=args.seed)
     scaler = StandardScaler()
-    x = torch.tensor(scaler.fit_transform(svd.fit_transform(sparse)), dtype=torch.float32)
-    dx = torch.tensor(scaler.transform(svd.transform(vectorizer.transform(
-        [r["text"] for r in development]))), dtype=torch.float32)
+    if args.feature_kind == "semantic":
+        vectorizer, svd = None, None
+        dense = semantic_matrix(training, args.semantic_cache)
+        dense_dev = semantic_matrix(development, args.semantic_cache)
+        dimensions = dense.shape[1]
+    else:
+        word = TfidfVectorizer(ngram_range=(1, 2), min_df=2, max_features=50_000, sublinear_tf=True)
+        if args.feature_kind == "hybrid":
+            vectorizer = FeatureUnion([
+                ("word", word),
+                ("char", TfidfVectorizer(analyzer="char_wb", ngram_range=(3,5), min_df=2,
+                                         max_features=50_000, sublinear_tf=True))])
+        else:
+            vectorizer = word
+        sparse = vectorizer.fit_transform([r["text"] for r in training])
+        dimensions = min(args.dimensions, sparse.shape[0] - 1, sparse.shape[1] - 1)
+        if dimensions < 2:
+            raise ValueError("Not enough distinct text to fit the feature representation")
+        svd = TruncatedSVD(n_components=dimensions, random_state=args.seed)
+        dense = svd.fit_transform(sparse)
+        dense_dev = svd.transform(vectorizer.transform([r["text"] for r in development]))
+    x = torch.tensor(scaler.fit_transform(dense), dtype=torch.float32)
+    dx = torch.tensor(scaler.transform(dense_dev), dtype=torch.float32)
     if not torch.isfinite(x).all() or not torch.isfinite(dx).all():
         raise ValueError("Non-finite text features; inspect the SVD preprocessing")
     y = torch.tensor([r["label"] for r in training], dtype=torch.long)
     dy = np.array([r["label"] for r in development])
-    linear = LinearSVC(C=1.0, random_state=args.seed).fit(x.numpy(), y.numpy())
-    joblib.dump(dict(vectorizer=vectorizer, svd=svd, scaler=scaler, linear=linear), output / "features.joblib")
+    linear = LinearSVC(C=1.0, random_state=args.seed, max_iter=5000).fit(x.numpy(), y.numpy())
+    semantic_path = str(pathlib.Path(args.semantic_cache).resolve()) if args.semantic_cache else None
+    joblib.dump(dict(vectorizer=vectorizer, svd=svd, scaler=scaler, linear=linear,
+                     semantic_cache=semantic_path,
+                     semantic_sha256=hashlib.sha256(pathlib.Path(semantic_path).read_bytes()).hexdigest() if semantic_path else None),
+                output / "features.joblib")
     loader = DataLoader(TensorDataset(x, y), batch_size=args.batch_size, shuffle=True, num_workers=0,
                         generator=torch.Generator().manual_seed(args.seed))
     guidance = Guidance(dimensions, len(classes), args.hidden).to(device)
@@ -224,7 +267,8 @@ def train(args):
     config.update(classes=classes, dimensions=dimensions, train_rows=len(x), dev_rows=len(dx),
                   torch_version=str(torch.__version__), numpy_version=np.__version__,
                   validation_best_macro_f1=best, diffusion_training_seconds=time.perf_counter() - start,
-                  representation="word TF-IDF -> train-fitted SVD -> train-fitted standardization",
+                  representation=("frozen LaBSE + text/role features -> train-fitted standardization" if args.feature_kind == "semantic"
+                                  else f"{args.feature_kind} TF-IDF -> train-fitted {dimensions}D SVD -> train-fitted standardization"),
                   train_support={c: int((y == i).sum()) for i, c in enumerate(classes)},
                   manifest_sha256=hashlib.sha256((root / "manifest.json").read_bytes()).hexdigest())
     write(output / "run.json", config)
@@ -255,8 +299,14 @@ def evaluate(args):
     results = {}
     for name in ["test_en", "test_kk"]:
         rows = target_rows(read(root, name), config["target"], classes)
-        x = torch.tensor(features["scaler"].transform(features["svd"].transform(
-            features["vectorizer"].transform([r["text"] for r in rows]))), dtype=torch.float32)
+        if features.get("semantic_cache"):
+            path = pathlib.Path(features["semantic_cache"])
+            if hashlib.sha256(path.read_bytes()).hexdigest() != features["semantic_sha256"]:
+                raise ValueError("Semantic cache differs from training")
+            raw = semantic_matrix(rows, path)
+        else:
+            raw = features["svd"].transform(features["vectorizer"].transform([r["text"] for r in rows]))
+        x = torch.tensor(features["scaler"].transform(raw), dtype=torch.float32)
         truth = [r["label"] for r in rows]
         times = {}
         start = time.perf_counter()
@@ -297,10 +347,14 @@ def main():
     parser.add_argument("--samples", type=int, default=8)
     parser.add_argument("--eval-every", type=int, default=5)
     parser.add_argument("--dimensions", type=int, default=128)
+    parser.add_argument("--feature-kind", choices=["word", "hybrid", "semantic"], default="word")
+    parser.add_argument("--semantic-cache", help="Frozen LaBSE + safe text/role features from prepare_semantic_features.py")
     parser.add_argument("--hidden", type=int, default=256)
     parser.add_argument("--batch-size", type=int, default=256)
     parser.add_argument("--smoke", action="store_true")
     args = parser.parse_args()
+    if (args.feature_kind == "semantic") != bool(args.semantic_cache):
+        parser.error("--feature-kind semantic and --semantic-cache must be used together")
     if min(args.epochs, args.samples, args.eval_every, args.hidden, args.batch_size) < 1 or args.dimensions < 2 or args.steps < 2:
         parser.error("Positive settings required; dimensions and steps must be >= 2")
     if args.smoke:

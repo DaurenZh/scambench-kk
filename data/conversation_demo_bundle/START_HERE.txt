@@ -1,0 +1,31 @@
+CONVERSATION DEMO — CPU ONLY
+
+These are the saved, development-selected sparse classifiers, not XLM-R or diffusion.
+Use --risk-model risk_baseline to compare the original mixed word risk baseline;
+the default risk model uses the development-selected hybrid features.
+All model parameters are exported as JSON/NPZ; inference requires numpy, scipy and scikit-learn.
+The existing GPU-notebook Python environment should already contain those packages.
+
+1. Extract this ZIP in a fresh folder. Open a NEW terminal or a separate notebook
+   kernel. Leave the ongoing GPU-training process running.
+2. Use the same Python environment as the notebooks and run:
+   python conversation_demo.py --models models --cases synthetic_conversations.json
+3. Read demo_results/challenge_results.csv and challenge_results.json. JSON includes
+   turn-by-turn predictions, case hashes and same-intent variant checks.
+4. For your own conversation, save a JSON list of {"role":"user","content":"..."}
+   messages (or {"messages":[...]}), then run:
+   python conversation_demo.py --models models --conversation my_conversation.json
+
+The optional --xlmr-run PATH loads a COMPLETED full XLM-R risk model on CPU.
+It does not interrupt or use the GPU. Wait until the final model is saved.
+
+These 27 hand-authored cases are a diagnostic challenge, not gold benchmark data.
+Expectations are the author's intended interpretation, not independent annotations.
+Kazakh wording needs human review. Related pairs/variants are not independent.
+Prefix predictions are not scored against future labels. Changed entities, typos,
+code-switching and late attacks test behavior. Report failures as well as successes;
+do not rewrite v1 examples after seeing predictions or train on this test set.
+
+The demo predicts risk and a recorded-action category. It is not a conversational
+agent, does not execute actions, and does not provide calibrated confidence.
+Synthetic entities/URLs are fictional; no network requests are made by the demo.

@@ -1,0 +1,21 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>ScamBench experiment results</title>
+<style>body{font:16px/1.5 system-ui;max-width:1000px;margin:40px auto;padding:0 24px;color:#17202a}
+table{border-collapse:collapse;width:100%}td,th{padding:9px;border-bottom:1px solid #ddd;text-align:left}
+.note{background:#f2f4f7;padding:16px}h1{font-size:28px}@media print{body{margin:10px}}</style>
+<h1>ScamBench: completed action prediction and diffusion experiments</h1>
+<p>23 November 2026. Full local CPU runs: seed 42; 30 MLP epochs and 30 diffusion epochs;
+100 diffusion steps; 8 samples per prediction. Both heads use identical train-fitted TF-IDF/SVD features.</p>
+<p>Mixed training: 11,227 English plus 3,600 silver Kazakh rows. Validation: 1,208 English plus 399 silver rows.
+Evaluation: 300 paired conversations per language, belonging to 273 families. Families do not cross these partitions.</p>
+<h2>Kazakh evaluation</h2><p>Risk macro-F1 covers 3 classes. Action macro-F1 below covers the 5 actions present
+in evaluation; the trained output schema contains 13 actions. The CSV also reports fixed-schema scores.</p>
+<table><thead><tr><th>Target</th><th>Model</th><th>Macro-F1</th><th>Accuracy</th></tr></thead><tbody><tr><td>risk</td><td>TF-IDF char_en</td><td>0.431</td><td>0.470</td></tr><tr><td>risk</td><td>TF-IDF word_en</td><td>0.409</td><td>0.443</td></tr><tr><td>risk</td><td>TF-IDF char_mixed</td><td>0.639</td><td>0.660</td></tr><tr><td>risk</td><td>TF-IDF word_mixed</td><td>0.667</td><td>0.697</td></tr><tr><td>risk</td><td>SVD linear mixed</td><td>0.362</td><td>0.450</td></tr><tr><td>risk</td><td>SVD mlp mixed</td><td>0.547</td><td>0.583</td></tr><tr><td>risk</td><td>SVD diffusion mixed</td><td>0.513</td><td>0.563</td></tr><tr><td>action</td><td>TF-IDF char_en</td><td>0.358</td><td>0.450</td></tr><tr><td>action</td><td>TF-IDF word_en</td><td>0.299</td><td>0.407</td></tr><tr><td>action</td><td>TF-IDF char_mixed</td><td>0.399</td><td>0.547</td></tr><tr><td>action</td><td>TF-IDF word_mixed</td><td>0.415</td><td>0.543</td></tr><tr><td>action</td><td>SVD linear mixed</td><td>0.294</td><td>0.503</td></tr><tr><td>action</td><td>SVD mlp mixed</td><td>0.385</td><td>0.530</td></tr><tr><td>action</td><td>SVD diffusion mixed</td><td>0.364</td><td>0.503</td></tr></tbody></table><h2>Paired family bootstrap</h2><ul><li>risk/test_en: diffusion − MLP, 95% interval [-0.008, 0.044].</li><li>risk/test_kk: diffusion − MLP, 95% interval [-0.071, 0.003].</li><li>action/test_en: diffusion − MLP, 95% interval [-0.013, 0.003].</li><li>action/test_kk: diffusion − MLP, 95% interval [-0.049, 0.005].</li></ul><p>Intervals use 2,000 paired resamples of conversation families. This preserves dependencies
+between restylings. Intervals containing zero do not establish an improvement.</p>
+<div class="note"><strong>Limits:</strong> one seed; a historical benchmark that informed earlier decisions;
+no native-speaker review; only five action types evaluated, including just one <code>ignore</code> example.
+Action prediction measures agreement with recorded actions, not execution safety. The diffusion implementation
+adapts CARD and is not a reproduction. XLM-R is not reported here: the remote Windows machine was still
+installing CUDA PyTorch at the last update. These new baselines reserve development families and differ
+from the earlier 0.687/0.898 experiments.</div>
+<p>Keep the negative results: diffusion need not beat its matched MLP to be a completed experiment.
+Report per-class support and inspect the saved predictions before making broad claims.</p></html>

@@ -1,11 +1,14 @@
 """Check diffusion boundaries, conditioning, and target/input separation."""
 import unittest
+import hashlib
+import pathlib
+import tempfile
 
 import numpy as np
 import torch
 from torch.nn import functional as F
 
-from run_label_diffusion import Denoiser, Guidance, Schedule, sample_votes
+from run_label_diffusion import Denoiser, Guidance, Schedule, sample_votes, semantic_matrix
 from train_transformer import CLASSES, score, target_rows
 
 
@@ -61,6 +64,20 @@ class DiffusionTests(unittest.TestCase):
         self.assertEqual(result["macro_f1_supported"], 1)
         self.assertLess(result["macro_f1"], 1)
         self.assertIn("binary_macro_f1", score([0, 1, 2], [0, 1, 2], CLASSES))
+
+    def test_semantic_cache_rejects_changed_text_and_annotation_features(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path=pathlib.Path(directory)/"features.npz"
+            row=dict(id="row1",text="hello")
+            common=dict(ids=np.array(["row1"]),features=np.array([[.5,2]],dtype=np.float32),
+                        text_sha256=np.array([hashlib.sha256(b"hello").hexdigest()]))
+            np.savez(path,**common,feature_names=np.array(["semantic_0","struct_n_messages"]))
+            np.testing.assert_allclose(semantic_matrix([row],path),[[.5,2]])
+            with self.assertRaisesRegex(ValueError,"text differs"):
+                semantic_matrix([dict(row,text="different")],path)
+            np.savez(path,**common,feature_names=np.array(["semantic_0","decision_class"]))
+            with self.assertRaisesRegex(ValueError,"Unapproved"):
+                semantic_matrix([row],path)
 
 
 if __name__ == "__main__":

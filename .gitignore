@@ -13,6 +13,13 @@ data/silver/*.parquet
 data/release/*.parquet
 data/gpu_bundle/
 data/gpu_bundle.zip
+data/gpu_bundle_4gb.zip
+data/experiments/**/*.joblib
+data/experiments/**/*.pt
+data/conversation_demo_bundle/models/
+data/conversation_demo/models/
+data/conversation_demo_bundle.zip
+gpu_bundle_4gb_final/
 
 # The human-made artifacts ARE tracked (translations, scripts, docs, the reports):
 !data/labeled/labelling_report.md

@@ -1,0 +1,12 @@
+{
+  "date": "2026-11-23",
+  "source": "User-reported Windows training progress; not independently verified",
+  "phase": "Epoch 2 approximately 42% complete",
+  "development_macro_f1": 0.9039,
+  "development_accuracy": 0.9079,
+  "development_binary_macro_f1": 0.9799,
+  "split": "Pooled English plus silver-Kazakh development set under the planned protocol",
+  "final_test_results_received": false,
+  "latest_phase_report": "Epoch 3 approximately 25% complete",
+  "metric_report_phase": "Epoch 2 approximately 42% complete"
+}

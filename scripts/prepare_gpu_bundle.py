@@ -120,10 +120,12 @@ def main():
         manifest["sha256"][path.name] = hashlib.sha256(path.read_bytes()).hexdigest()
     (args.out / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
     shutil.copy2(args.root / "scripts/train_transformer.py", args.out / "train_transformer.py")
+    shutil.copy2(args.root / "scripts/gpu_launcher.py", args.out / "gpu_launcher.py")
     shutil.copy2(args.root / "scripts/run_label_diffusion.py", args.out / "run_label_diffusion.py")
     shutil.copy2(args.root / "notebooks/05_gpu_finetuning.ipynb", args.out / "05_gpu_finetuning.ipynb")
     shutil.copy2(args.root / "notebooks/06_decisions_and_diffusion.ipynb", args.out / "06_decisions_and_diffusion.ipynb")
     shutil.copy2(args.root / "reports/DECISIONS_AND_DIFFUSION.md", args.out / "DECISIONS_AND_DIFFUSION.md")
+    shutil.copy2(args.root / "reports/WINDOWS_4GB.md", args.out / "START_HERE_4GB.md")
     shutil.copy2(args.root / "data/release/README.md", args.out / "DATASET_CARD.md")
     archive = args.out.with_suffix(".zip")
     with zipfile.ZipFile(archive, "w", compression=zipfile.ZIP_DEFLATED) as z:

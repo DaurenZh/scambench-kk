@@ -1,0 +1,23 @@
+{
+  "status": "authored diagnostic cases, not an independent benchmark",
+  "cases": 27,
+  "base_families": 9,
+  "models": {
+    "selected": {
+      "source": "development-selected sparse classifier",
+      "author_risk_matches": 9,
+      "author_binary_matches": 18,
+      "same_intent_variants": 9,
+      "variants_changing_risk": 3,
+      "variants_changing_action": 4
+    },
+    "baseline": {
+      "source": "original mixed word baseline; frozen settings",
+      "author_risk_matches": 14,
+      "author_binary_matches": 20,
+      "same_intent_variants": 9,
+      "variants_changing_risk": 3,
+      "variants_changing_action": 4
+    }
+  }
+}

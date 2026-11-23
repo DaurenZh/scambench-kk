@@ -1,0 +1,290 @@
+{
+  "risk/test_en/sparse_selected_minus_original": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "sparse_selected_minus_original",
+    "ci95": [
+      -0.05362320353554437,
+      0.023964311404370133
+    ],
+    "interval_includes_zero": true
+  },
+  "risk/test_en/diffusion_hybrid512_minus_word128": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "diffusion_hybrid512_minus_word128",
+    "ci95": [
+      0.007571227987647688,
+      0.09653776619358787
+    ],
+    "interval_includes_zero": false
+  },
+  "risk/test_en/mlp_hybrid512_minus_word128": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "mlp_hybrid512_minus_word128",
+    "ci95": [
+      0.03037938061879674,
+      0.12609953861997322
+    ],
+    "interval_includes_zero": false
+  },
+  "risk/test_en/diffusion_minus_mlp_hybrid512": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "diffusion_minus_mlp_hybrid512",
+    "ci95": [
+      -0.022698628955496576,
+      0.0
+    ],
+    "interval_includes_zero": true
+  },
+  "risk/test_en/diffusion_semantic_minus_hybrid512": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "diffusion_semantic_minus_hybrid512",
+    "ci95": [
+      -0.12434107624853152,
+      -0.02068857791401074
+    ],
+    "interval_includes_zero": false
+  },
+  "risk/test_en/diffusion_minus_mlp_semantic": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "diffusion_minus_mlp_semantic",
+    "ci95": [
+      0.0,
+      0.016431669868115558
+    ],
+    "interval_includes_zero": true
+  },
+  "risk/test_kk/sparse_selected_minus_original": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "sparse_selected_minus_original",
+    "ci95": [
+      -0.03867993128746371,
+      0.03978349616682549
+    ],
+    "interval_includes_zero": true
+  },
+  "risk/test_kk/diffusion_hybrid512_minus_word128": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "diffusion_hybrid512_minus_word128",
+    "ci95": [
+      -0.004264125076720826,
+      0.12894324709023436
+    ],
+    "interval_includes_zero": true
+  },
+  "risk/test_kk/mlp_hybrid512_minus_word128": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "mlp_hybrid512_minus_word128",
+    "ci95": [
+      -0.021094400918483934,
+      0.10999393483369534
+    ],
+    "interval_includes_zero": true
+  },
+  "risk/test_kk/diffusion_minus_mlp_hybrid512": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "diffusion_minus_mlp_hybrid512",
+    "ci95": [
+      -0.034797427078133235,
+      -0.0027865312128756213
+    ],
+    "interval_includes_zero": false
+  },
+  "risk/test_kk/diffusion_semantic_minus_hybrid512": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "diffusion_semantic_minus_hybrid512",
+    "ci95": [
+      -0.0580374945944765,
+      0.057684012612730554
+    ],
+    "interval_includes_zero": true
+  },
+  "risk/test_kk/diffusion_minus_mlp_semantic": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "diffusion_minus_mlp_semantic",
+    "ci95": [
+      -0.01636443827508609,
+      0.0
+    ],
+    "interval_includes_zero": true
+  },
+  "action/test_en/sparse_selected_minus_original": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "sparse_selected_minus_original",
+    "ci95": [
+      -0.017503132613164368,
+      0.03083410241580545
+    ],
+    "interval_includes_zero": true
+  },
+  "action/test_en/diffusion_hybrid512_minus_word128": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "diffusion_hybrid512_minus_word128",
+    "ci95": [
+      0.00873423094430592,
+      0.10820302966725516
+    ],
+    "interval_includes_zero": false
+  },
+  "action/test_en/mlp_hybrid512_minus_word128": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "mlp_hybrid512_minus_word128",
+    "ci95": [
+      0.005994847376545831,
+      0.1050965820440664
+    ],
+    "interval_includes_zero": false
+  },
+  "action/test_en/diffusion_minus_mlp_hybrid512": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "diffusion_minus_mlp_hybrid512",
+    "ci95": [
+      0.0,
+      0.0
+    ],
+    "interval_includes_zero": true
+  },
+  "action/test_en/diffusion_semantic_minus_hybrid512": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "diffusion_semantic_minus_hybrid512",
+    "ci95": [
+      -0.1233285404545317,
+      -0.020241036531526643
+    ],
+    "interval_includes_zero": false
+  },
+  "action/test_en/diffusion_minus_mlp_semantic": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "diffusion_minus_mlp_semantic",
+    "ci95": [
+      -0.023674881218627472,
+      0.0038040762487569478
+    ],
+    "interval_includes_zero": true
+  },
+  "action/test_kk/sparse_selected_minus_original": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "sparse_selected_minus_original",
+    "ci95": [
+      -0.029807974096015294,
+      0.066780780894263
+    ],
+    "interval_includes_zero": true
+  },
+  "action/test_kk/diffusion_hybrid512_minus_word128": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "diffusion_hybrid512_minus_word128",
+    "ci95": [
+      -0.04190939940388937,
+      0.08601802809217925
+    ],
+    "interval_includes_zero": true
+  },
+  "action/test_kk/mlp_hybrid512_minus_word128": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "mlp_hybrid512_minus_word128",
+    "ci95": [
+      -0.0744632890789184,
+      0.058385690049255666
+    ],
+    "interval_includes_zero": true
+  },
+  "action/test_kk/diffusion_minus_mlp_hybrid512": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "diffusion_minus_mlp_hybrid512",
+    "ci95": [
+      0.0004955628766306605,
+      0.016156856838538583
+    ],
+    "interval_includes_zero": false
+  },
+  "action/test_kk/diffusion_semantic_minus_hybrid512": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "diffusion_semantic_minus_hybrid512",
+    "ci95": [
+      -0.04481404020219303,
+      0.07784535917866779
+    ],
+    "interval_includes_zero": true
+  },
+  "action/test_kk/diffusion_minus_mlp_semantic": {
+    "families": 273,
+    "rows": 300,
+    "rounds": 2000,
+    "metric": "macro-F1 over the fixed set of classes present in the evaluation set",
+    "contrast": "diffusion_minus_mlp_semantic",
+    "ci95": [
+      -0.018659355670426522,
+      0.004289743594369199
+    ],
+    "interval_includes_zero": true
+  }
+}

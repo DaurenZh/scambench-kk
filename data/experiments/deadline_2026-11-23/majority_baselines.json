@@ -1,0 +1,314 @@
+{
+  "risk": {
+    "majority_label": "LEGITIMATE",
+    "train_counts": {
+      "LEGITIMATE": 6298,
+      "SUSPICIOUS": 4345,
+      "SCAM": 4184
+    },
+    "selection": "Most frequent target in mixed training data; fixed class order breaks ties",
+    "test_en": {
+      "macro_f1": 0.16666666666666666,
+      "macro_f1_supported": 0.16666666666666666,
+      "accuracy": 0.3333333333333333,
+      "per_class": {
+        "LEGITIMATE": {
+          "precision": 0.3333333333333333,
+          "recall": 1.0,
+          "f1-score": 0.5,
+          "support": 100.0
+        },
+        "SUSPICIOUS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 100.0
+        },
+        "SCAM": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 100.0
+        },
+        "accuracy": 0.3333333333333333,
+        "macro avg": {
+          "precision": 0.1111111111111111,
+          "recall": 0.3333333333333333,
+          "f1-score": 0.16666666666666666,
+          "support": 300.0
+        },
+        "weighted avg": {
+          "precision": 0.11111111111111109,
+          "recall": 0.3333333333333333,
+          "f1-score": 0.16666666666666666,
+          "support": 300.0
+        }
+      },
+      "binary_macro_f1": 0.25
+    },
+    "test_kk": {
+      "macro_f1": 0.16666666666666666,
+      "macro_f1_supported": 0.16666666666666666,
+      "accuracy": 0.3333333333333333,
+      "per_class": {
+        "LEGITIMATE": {
+          "precision": 0.3333333333333333,
+          "recall": 1.0,
+          "f1-score": 0.5,
+          "support": 100.0
+        },
+        "SUSPICIOUS": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 100.0
+        },
+        "SCAM": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 100.0
+        },
+        "accuracy": 0.3333333333333333,
+        "macro avg": {
+          "precision": 0.1111111111111111,
+          "recall": 0.3333333333333333,
+          "f1-score": 0.16666666666666666,
+          "support": 300.0
+        },
+        "weighted avg": {
+          "precision": 0.11111111111111109,
+          "recall": 0.3333333333333333,
+          "f1-score": 0.16666666666666666,
+          "support": 300.0
+        }
+      },
+      "binary_macro_f1": 0.25
+    }
+  },
+  "action": {
+    "majority_label": "request_verification",
+    "train_counts": {
+      "accept": 68,
+      "allow_safe_action": 525,
+      "audit": 1250,
+      "block_actor": 39,
+      "deny_privileged_action": 29,
+      "engage_legitimate": 4210,
+      "escalate": 758,
+      "execute_transaction": 138,
+      "ignore": 85,
+      "refuse": 3260,
+      "request_verification": 4407,
+      "share_safe_info": 30,
+      "warn_actor": 28
+    },
+    "selection": "Most frequent target in mixed training data; fixed class order breaks ties",
+    "test_en": {
+      "macro_f1": 0.0345855694692904,
+      "macro_f1_supported": 0.08992248062015504,
+      "accuracy": 0.29,
+      "per_class": {
+        "accept": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "allow_safe_action": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "audit": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 25.0
+        },
+        "block_actor": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "deny_privileged_action": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "engage_legitimate": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 88.0
+        },
+        "escalate": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "execute_transaction": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "ignore": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "refuse": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 99.0
+        },
+        "request_verification": {
+          "precision": 0.29,
+          "recall": 1.0,
+          "f1-score": 0.4496124031007752,
+          "support": 87.0
+        },
+        "share_safe_info": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "warn_actor": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "accuracy": 0.29,
+        "macro avg": {
+          "precision": 0.022307692307692306,
+          "recall": 0.07692307692307693,
+          "f1-score": 0.0345855694692904,
+          "support": 300.0
+        },
+        "weighted avg": {
+          "precision": 0.0841,
+          "recall": 0.29,
+          "f1-score": 0.1303875968992248,
+          "support": 300.0
+        }
+      }
+    },
+    "test_kk": {
+      "macro_f1": 0.0345855694692904,
+      "macro_f1_supported": 0.08992248062015504,
+      "accuracy": 0.29,
+      "per_class": {
+        "accept": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "allow_safe_action": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "audit": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 25.0
+        },
+        "block_actor": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "deny_privileged_action": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "engage_legitimate": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 88.0
+        },
+        "escalate": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "execute_transaction": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "ignore": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "refuse": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 99.0
+        },
+        "request_verification": {
+          "precision": 0.29,
+          "recall": 1.0,
+          "f1-score": 0.4496124031007752,
+          "support": 87.0
+        },
+        "share_safe_info": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "warn_actor": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 0.0
+        },
+        "accuracy": 0.29,
+        "macro avg": {
+          "precision": 0.022307692307692306,
+          "recall": 0.07692307692307693,
+          "f1-score": 0.0345855694692904,
+          "support": 300.0
+        },
+        "weighted avg": {
+          "precision": 0.0841,
+          "recall": 0.29,
+          "f1-score": 0.1303875968992248,
+          "support": 300.0
+        }
+      }
+    }
+  },
+  "dedicated_binary_majority": {
+    "test_en": {
+      "predicted_label": "ATTACK",
+      "macro_f1": 0.4
+    },
+    "test_kk": {
+      "predicted_label": "ATTACK",
+      "macro_f1": 0.4
+    }
+  }
+}

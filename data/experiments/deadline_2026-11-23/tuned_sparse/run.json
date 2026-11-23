@@ -1,0 +1,45 @@
+{
+  "selected": {
+    "risk": {
+      "target": "risk",
+      "features": "hybrid",
+      "C": 4.0,
+      "class_weight": null,
+      "dev_kk_macro_f1": 0.8775470972702806,
+      "dev_pooled_macro_f1": 0.8855523154142331,
+      "classes": [
+        "LEGITIMATE",
+        "SUSPICIOUS",
+        "SCAM"
+      ]
+    },
+    "action": {
+      "target": "action",
+      "features": "word",
+      "C": 4.0,
+      "class_weight": "balanced",
+      "dev_kk_macro_f1": 0.5775510152987103,
+      "dev_pooled_macro_f1": 0.6546655630999803,
+      "classes": [
+        "accept",
+        "allow_safe_action",
+        "audit",
+        "block_actor",
+        "deny_privileged_action",
+        "engage_legitimate",
+        "escalate",
+        "execute_transaction",
+        "ignore",
+        "refuse",
+        "request_verification",
+        "share_safe_info",
+        "warn_actor"
+      ]
+    }
+  },
+  "train_rows": 14827,
+  "dev_rows": 1607,
+  "selection": "silver-Kazakh dev macro-F1, pooled dev tie-break; gold excluded from search",
+  "search_seconds": 275.968354375,
+  "manifest_sha256": "9613169dc603d645c2a317722719ffa19be589d612c8d7483a8454164b3ebe5a"
+}

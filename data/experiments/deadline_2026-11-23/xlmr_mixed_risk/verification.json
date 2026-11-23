@@ -1,0 +1,9 @@
+{
+  "status": "verified completed run; metrics recomputed",
+  "manifest_sha256": "9613169dc603d645c2a317722719ffa19be589d612c8d7483a8454164b3ebe5a",
+  "configured_epochs": 3,
+  "observed_final_epoch": 3.0,
+  "test_rows_per_language": 300,
+  "families": 273,
+  "caveat": "Historical benchmark, one seed. These checks verify alignment and metric arithmetic, not source annotation correctness."
+}

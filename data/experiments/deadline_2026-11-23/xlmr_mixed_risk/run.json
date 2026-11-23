@@ -1,0 +1,35 @@
+{
+  "command": "train",
+  "data": ".",
+  "output": "gpu_results_4gb/risk_mixed_3epoch_seed42",
+  "variant": "mixed",
+  "target": "risk",
+  "model": "FacebookAI/xlm-roberta-base",
+  "seed": 42,
+  "epochs": 3,
+  "max_length": 256,
+  "batch_size": 1,
+  "accumulation": 32,
+  "optimizer": "adafactor",
+  "save_steps": 50,
+  "smoke": false,
+  "resume": null,
+  "classes": [
+    "LEGITIMATE",
+    "SUSPICIOUS",
+    "SCAM"
+  ],
+  "train_rows": 14827,
+  "dev_rows": 1607,
+  "train_truncated": 8349,
+  "dev_truncated": 974,
+  "truncation_policy": "head+tail",
+  "model_revision": "e73636d4f797dec63c3081bb6ed5c7b0bb3f2089",
+  "manifest_sha256": "9613169dc603d645c2a317722719ffa19be589d612c8d7483a8454164b3ebe5a",
+  "packages": {
+    "torch": "2.11.0+cu128",
+    "transformers": "4.57.6",
+    "accelerate": "1.16.0",
+    "scikit-learn": "1.7.2"
+  }
+}

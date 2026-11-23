@@ -1,0 +1,36 @@
+{
+  "command": "train",
+  "data": "data/gpu_bundle",
+  "output": "data/experiments/deadline_2026-11-23/diffusion_risk_hybrid512_seed42",
+  "target": "risk",
+  "variant": "mixed",
+  "device": "cpu",
+  "seed": 42,
+  "epochs": 30,
+  "steps": 100,
+  "samples": 8,
+  "eval_every": 5,
+  "dimensions": 512,
+  "feature_kind": "hybrid",
+  "hidden": 256,
+  "batch_size": 256,
+  "smoke": false,
+  "classes": [
+    "LEGITIMATE",
+    "SUSPICIOUS",
+    "SCAM"
+  ],
+  "train_rows": 14827,
+  "dev_rows": 1607,
+  "torch_version": "2.8.0",
+  "numpy_version": "2.0.2",
+  "validation_best_macro_f1": 0.8778867387587131,
+  "diffusion_training_seconds": 10.007911833000037,
+  "representation": "hybrid TF-IDF -> train-fitted 512D SVD -> train-fitted standardization",
+  "train_support": {
+    "LEGITIMATE": 6298,
+    "SUSPICIOUS": 4345,
+    "SCAM": 4184
+  },
+  "manifest_sha256": "9613169dc603d645c2a317722719ffa19be589d612c8d7483a8454164b3ebe5a"
+}

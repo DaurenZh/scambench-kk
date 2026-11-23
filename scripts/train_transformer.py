@@ -86,7 +86,7 @@ def gpu():
 def train(args):
     torch = gpu()
     from transformers import (AutoModelForSequenceClassification, AutoTokenizer,
-                              DataCollatorWithPadding, Trainer, TrainingArguments, set_seed)
+                              DataCollatorWithPadding, Trainer, TrainerCallback, TrainingArguments, set_seed)
     set_seed(args.seed)
     root, output = pathlib.Path(args.data), pathlib.Path(args.output)
     output.mkdir(parents=True, exist_ok=True)
@@ -94,8 +94,9 @@ def train(args):
         raise SystemExit("Output already contains a model. Choose a new output directory.")
     if args.resume:
         previous = json.loads((output / "run.json").read_text(encoding="utf-8"))
-        keys = ["variant", "model", "seed", "max_length", "batch_size", "accumulation", "epochs", "smoke", "target"]
-        if any(previous[k] != getattr(args, k) for k in keys):
+        keys = ["variant", "model", "seed", "max_length", "batch_size", "accumulation", "epochs", "smoke", "target",
+                "optimizer", "save_steps"]
+        if any(previous.get(k, {"optimizer": "adamw_torch", "save_steps": None}.get(k)) != getattr(args, k) for k in keys):
             raise ValueError("Resume settings must match the interrupted run")
         if previous["manifest_sha256"] != hashlib.sha256((root / "manifest.json").read_bytes()).hexdigest():
             raise ValueError("Resume data differs from the interrupted run")
@@ -107,9 +108,10 @@ def train(args):
     classes = CLASSES if args.target == "risk" else manifest["decision_classes"]
     rows = target_rows(rows, args.target, classes)
     dev_rows = target_rows(dev_rows, args.target, classes)
-    # Smoke runs exercise forward/backward/checkpoint saving, without test data.
+    # Exercise long inputs, rather than only an easy short prefix.
     if args.smoke:
-        rows, dev_rows = rows[:32], dev_rows[:16]
+        rows = sorted(rows, key=lambda r: len(r["text"]), reverse=True)[:32]
+        dev_rows = sorted(dev_rows, key=lambda r: len(r["text"]), reverse=True)[:16]
     tokenizer = AutoTokenizer.from_pretrained(args.model)
     training = EncodedRows(rows, tokenizer, args.max_length)
     development = EncodedRows(dev_rows, tokenizer, args.max_length)
@@ -126,12 +128,29 @@ def train(args):
         per_device_eval_batch_size=args.batch_size,
         gradient_accumulation_steps=args.accumulation,
         gradient_checkpointing=True,
-        eval_strategy="epoch", save_strategy="epoch", save_total_limit=1,
+        eval_strategy="steps", save_strategy="steps",
+        eval_steps=1 if args.smoke else args.save_steps,
+        save_steps=1 if args.smoke else args.save_steps, save_total_limit=2,
+        eval_accumulation_steps=1,
         load_best_model_at_end=True, metric_for_best_model="macro_f1",
         greater_is_better=True, bf16=use_bf16, fp16=not use_bf16,
-        seed=args.seed, data_seed=args.seed, report_to="none", logging_steps=25,
-        dataloader_num_workers=0, optim="adamw_torch",
+        seed=args.seed, data_seed=args.seed, report_to="none", logging_steps=5,
+        disable_tqdm=True, dataloader_num_workers=0, optim=args.optimizer,
     )
+
+    class FirstCheckpoint(TrainerCallback):
+        def on_step_end(self, args, state, control, **kwargs):
+            # Save a resumable checkpoint immediately after the first update.
+            # Later checkpoints follow the regular save/evaluation interval.
+            if state.global_step == 1:
+                control.should_save = True
+            return control
+
+        def on_epoch_end(self, args, state, control, **kwargs):
+            # Also evaluate/save the final partial interval of each epoch.
+            control.should_evaluate = True
+            control.should_save = True
+            return control
 
     def metrics(result):
         logits, labels = result
@@ -141,6 +160,7 @@ def train(args):
     trainer = Trainer(model=model, args=settings, train_dataset=training,
                       eval_dataset=development, processing_class=tokenizer,
                       data_collator=DataCollatorWithPadding(tokenizer, pad_to_multiple_of=8),
+                      callbacks=[FirstCheckpoint()],
                       compute_metrics=metrics)
     print(f"Train: {len(training)}; dev: {len(development)}; gold test unused.", flush=True)
     run = vars(args).copy()
@@ -235,10 +255,12 @@ def main():
     parser.add_argument("--max-length", type=int, default=512)
     parser.add_argument("--batch-size", type=int, default=2)
     parser.add_argument("--accumulation", type=int, default=16)
+    parser.add_argument("--optimizer", choices=["adamw_torch", "adafactor"], default="adamw_torch")
+    parser.add_argument("--save-steps", type=int, default=50, help="Checkpoint/evaluation interval in optimizer updates")
     parser.add_argument("--smoke", action="store_true")
     parser.add_argument("--resume", help="Path to an interrupted run's checkpoint directory")
     args = parser.parse_args()
-    if args.batch_size < 1 or args.accumulation < 1 or args.epochs <= 0:
+    if args.batch_size < 1 or args.accumulation < 1 or args.epochs <= 0 or args.save_steps < 1:
         parser.error("batch-size, accumulation, and epochs must be positive")
     if not 4 <= args.max_length <= 512:
         parser.error("max-length must be between 4 and 512")

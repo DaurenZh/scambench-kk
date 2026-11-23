@@ -1,0 +1,16 @@
+{
+  "device": "CPU",
+  "source": "provided final model.safetensors",
+  "comparison": {
+    "test_en": {
+      "rows": 300,
+      "matching": 300,
+      "differences": []
+    },
+    "test_kk": {
+      "rows": 300,
+      "matching": 300,
+      "differences": []
+    }
+  }
+}

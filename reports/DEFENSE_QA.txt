@@ -1,0 +1,57 @@
+DEFENSE QUESTIONS — rehearse concise answers
+
+1. What did you actually contribute?
+We extended a processed ScamBench snapshot with three risk classes and 300 Kazakh reference conversations. We built validation and review tools, identified split leakage, and evaluated transfer, silver-data training, action prediction and conditional diffusion. We also tested newly authored conversations and preserved their failures.
+
+2. How were the three risk labels obtained?
+They are derived from the original attack-defense flag and prescribed action, with documented risk signals. They are not independent human judgments. SCAM requires an attack flag and a defensive action; SUSPICIOUS covers verification/audit or borderline risk; LEGITIMATE covers normal interactions without attack evidence under the rule.
+
+3. Why not trust the original split?
+Multiple restylings of one conversation crossed splits. The project audit measured training-family counterparts for 83% of original validation rows. Family-safe partitions hold those related examples together. A later exact-text check found 31/1,607 development rows duplicated across distinct families; that remaining selection caveat is reported. None of the 600 paired test rows exactly duplicates training text. Near-duplicates are not ruled out.
+
+4. Why is 0.898 different from 0.6675?
+0.8983 is the original mixed word model's Kazakh binary macro-F1 after merging SCAM and SUSPICIOUS predictions as ATTACK. 0.6675 is its three-class macro-F1 on the current split. These measure different decisions. We show both, rather than substituting the larger binary score for the three-class result.
+
+5. Why do older documents report 0.687?
+That was an earlier character TF-IDF experiment with a larger training pool. The new experiments reserve separate development families. Compare models within the same current protocol; do not call the older number a directly matched control.
+
+6. What does action prediction mean here?
+The model predicts the source decision_class from conversation text, such as refuse or request_verification. It does not execute actions or learn rewards through interaction. This is offline agreement with source annotations, not evidence of safe autonomous behavior.
+
+7. Why report only five supported actions?
+The output schema has thirteen actions, but this 300-pair test contains only five: refuse 99, engage_legitimate 88, request_verification 87, audit 25, ignore 1. The main action number averages those five; full-schema scores remain available. Perfect predictions on this slice score at most 5/13 on a full-schema macro-F1 convention that assigns zero to absent classes. This slice does not evaluate the other eight actions.
+
+8. Why might SCAM and SUSPICIOUS be difficult to separate?
+Their distinction partly reflects the source policy's prescribed action. Text-only model errors suggest ambiguity or limited evidence, but poor performance does not prove the boundary is inherently unlearnable. Independent human review and access to the relevant policy would help distinguish model weakness from annotation uncertainty.
+
+9. What did diffusion generate?
+A continuous representation of the target label, conditioned on input features and a frozen classifier. We add noise to the one-hot label residual, learn to predict that noise, and reverse the process. It is a CARD-inspired label classifier, not a text-generation model and not a reproduction of CARD's reported benchmarks.
+
+10. How was the diffusion comparison controlled?
+The MLP and diffusion head receive identical train-fitted features and partitions. We report both initial and richer-feature experiments. Development selects checkpoints. Most architecture comparisons use seed 42; the semantic-head stability check repeats the same fixed configuration with seeds 0, 1 and 42. All seeds are retained. A three-seed standard deviation describes variability; it is not a confidence interval.
+
+11. What do the high XLM-R development scores mean?
+They measure the pooled development set: 1,208 English and 399 machine-translated Kazakh rows. Three epochs completed; the best epoch-2 checkpoint scored 0.9248 development macro-F1. Verified test macro-F1 is 0.6873 English and 0.6341 Kazakh; binary scores are 0.9338 and 0.8772. All 600 predictions reproduce from the final weights locally. The development-to-test gap also exists in English. Translation/domain differences, context truncation and 31 exact development/training duplicates are limitations to investigate, not proven causal explanations. This one run establishes no gain over matched TF-IDF; the paired-family intervals include zero.
+
+12. What did the conversation demo show?
+It replays 27 authored cases across nine base scenarios, languages and same-intent variants. It includes obvious scams, benign security discussions, code-switching, typos and late malicious requests. It catches some examples and fails others. These are author-intended diagnostic cases, not independently adjudicated benchmark data. Prefixes lack later evidence and are not graded using future labels.
+
+13. Did the Windows replay add new test examples?
+No. Its 27 prediction objects match the local run, including per-turn outputs. Notebook metadata records Python 3.15.0 and eight executed code cells without recorded errors. This is cross-platform reproducibility on the same frozen cases, not additional independent coverage or retraining.
+
+14. What is still missing?
+Completed native-speaker review, broader action coverage, more independent evaluation data, and wider seed coverage. The separate blind action audit can record uncertainty and disagreements, but agreement with the source is not objective correctness or a human performance ceiling. Frozen semantic encoding also truncates input.
+
+15. What would you do next?
+The verified XLM-R evaluation is integrated. Next inspect per-class and conversation-level errors, complete independent translation/label review, and evaluate fixed settings on a fresh, broader family-safe set. Domain adaptation or additional features should be assessed on separate development examples rather than by rewriting the frozen challenge to make the model succeed.
+
+Before submission: fill in your name/course; use the completed, verified GPU results; use the latest actual metric files; retain negative results and limitations.
+
+16. Are scores meaningful compared with a simple baseline?
+A constant predictor chosen from mixed training labels gives Kazakh risk macro-F1 0.1667 and supported-action macro-F1 0.0899. The learned sparse systems score about 0.6675 and 0.4328 respectively. A dedicated binary majority predictor gives macro-F1 0.4000, compared with 0.8983 for the original mixed word system. This shows learned signal, not deployment reliability; the authored challenge still exposes failures.
+
+17. Why use macro-F1 rather than accuracy alone?
+Accuracy is the fraction of correct predictions. Per-class F1 combines precision and recall; macro-F1 averages those class scores equally. This makes a weak minority class visible rather than letting common classes dominate. Always state the label set used for averaging, especially the five supported actions versus the full thirteen-class schema.
+
+18. Why did you train three epochs but evaluate epoch 2?
+Checkpoint selection used development macro-F1, not the test set. Epoch 2 reached 0.9248; epoch 3 fell to 0.9130. Training finished normally and restored checkpoint-928, the best development checkpoint. More epochs are not automatically better.

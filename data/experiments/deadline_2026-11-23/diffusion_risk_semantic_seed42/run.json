@@ -1,0 +1,37 @@
+{
+  "command": "train",
+  "data": "data/gpu_bundle",
+  "output": "data/experiments/deadline_2026-11-23/diffusion_risk_semantic_seed42",
+  "target": "risk",
+  "variant": "mixed",
+  "device": "cpu",
+  "seed": 42,
+  "epochs": 30,
+  "steps": 100,
+  "samples": 8,
+  "eval_every": 5,
+  "dimensions": 822,
+  "feature_kind": "semantic",
+  "semantic_cache": "data/embeddings/labse_hand_bundle.npz",
+  "hidden": 256,
+  "batch_size": 256,
+  "smoke": false,
+  "classes": [
+    "LEGITIMATE",
+    "SUSPICIOUS",
+    "SCAM"
+  ],
+  "train_rows": 14827,
+  "dev_rows": 1607,
+  "torch_version": "2.8.0",
+  "numpy_version": "2.0.2",
+  "validation_best_macro_f1": 0.7877503827394982,
+  "diffusion_training_seconds": 10.530452542000006,
+  "representation": "frozen LaBSE + text/role features -> train-fitted standardization",
+  "train_support": {
+    "LEGITIMATE": 6298,
+    "SUSPICIOUS": 4345,
+    "SCAM": 4184
+  },
+  "manifest_sha256": "9613169dc603d645c2a317722719ffa19be589d612c8d7483a8454164b3ebe5a"
+}
